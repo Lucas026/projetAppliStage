@@ -14,9 +14,14 @@
     <string name="textView_numero_lot">NUMERO LOT</string>
     <string name="textView_defaut">DEFAUT</string>
     <string name="textView_chantier_a_faire">CHANTIER A FAIRE</string>
-    <string-array name="liste_Defaut">
-        <item>Palette mouillé</item>
-        <item>Palette troué</item>
-        <item>Palette cassé</item>
-    </string-array>
+    <string name="textView_origine_palette">ORIGINE PALETTE</string>
+    <string name="textview_responsabilite">RESPONSABILITE</string>
+    <string name="tewtview_photo">PHOTO</string>
+    <string name="button_photo">PHOTO</string>
+    <string name="btn_prendre_une_photo">Prendre une photo</string>
+    <string name="affichePhoto">TODO</string>
+    <string name="textView_commande">Commande</string>
+    <string name="textviewCommande">COMMANDE</string>
+    <string name="btn_envoyerManuel">ENVOYER</string>
+
 </resources>
