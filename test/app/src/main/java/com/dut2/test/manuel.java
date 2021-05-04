@@ -32,8 +32,8 @@ import java.util.List;
 public class manuel extends AppCompatActivity{
 
     TextView date;
-    EditText codeArticle, article, numPalette, originePalette, commande;
-    Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite;
+    EditText codeArticle, article, numPalette, commande;
+    Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine, spinnerCommande;
     Button btnPhoto;
     ImageView affichePhoto;
     String photoPaths;
@@ -51,8 +51,8 @@ public class manuel extends AppCompatActivity{
         spinnerDefaut = findViewById(R.id.spinner_defaut);
         spinnerChantier = findViewById(R.id.spinner_chantier);
         spinnerResponsabilite = findViewById(R.id.spinner_reponsabilite);
-        originePalette = findViewById(R.id.editText_OriginePalette);
-        commande = findViewById(R.id.editText_Commande);
+        spinnerOrigine = findViewById(R.id.spinner_origine);
+        spinnerCommande = findViewById(R.id.spinner_commande);
 
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
@@ -61,14 +61,42 @@ public class manuel extends AppCompatActivity{
         codeArticle.getText();
         article.getText();
         numPalette.getText();
-        originePalette.getText();
-        commande.getText();
 
         //Spinner des defauts
         List<String> listeDefaut = new ArrayList<>();
-        listeDefaut.add("Palette mouillé");
-        listeDefaut.add("Palette troué");
-        listeDefaut.add("Palette cassé");
+        listeDefaut.add("Trou jonction join");
+        listeDefaut.add("Absence tapis de sol");
+        listeDefaut.add("Chapeau décalé / mal mis");
+        listeDefaut.add("Bac mal collé");
+        listeDefaut.add("Manque liens / détendus / mal positionnés");
+        listeDefaut.add("Cols manquant");
+        listeDefaut.add("Double plaque / plaque manquante");
+        listeDefaut.add("Plaque décalée");
+        listeDefaut.add("Lit en boule");
+        listeDefaut.add("Verticalité palette");
+        listeDefaut.add("Mauvaise soudure de toit");
+        listeDefaut.add("Demi lune");
+        listeDefaut.add("Pli craquelé");
+        listeDefaut.add("Pli chapeau");
+        listeDefaut.add("Trou angle de coiffe");
+        listeDefaut.add("Trou de chauffe");
+        listeDefaut.add("Trou angle de bac");
+        listeDefaut.add("Trou angle PPA");
+        listeDefaut.add("Mauvais soudure tapis au sol");
+        listeDefaut.add("Housse mal rétracté");
+        listeDefaut.add("Petit trou (2-3mm) origine brûlure");
+        listeDefaut.add("Coup de fourche");
+        listeDefaut.add("Cols cassés");
+        listeDefaut.add("Housse déchiré");
+        listeDefaut.add("Chocs manutention");
+        listeDefaut.add("Trou sur coiffe à la manipulation");
+        listeDefaut.add("Palettes bois KC");
+        listeDefaut.add("Mauvais étiquetage");
+        listeDefaut.add("Etiquette tombée / Mal positionnée / Colle sur bouteille");
+        listeDefaut.add("Sans étiquette");
+        listeDefaut.add("Sale(Poussière, fientes, oiseaux, etc...)");
+        listeDefaut.add("Condensation");
+        listeDefaut.add("Corps étranger dans palette (insectes, etc...)");
         ArrayAdapter<String> adapter_defaut = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeDefaut);
         adapter_defaut.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDefaut.setAdapter(adapter_defaut);
@@ -86,9 +114,10 @@ public class manuel extends AppCompatActivity{
 
         //Spinner des chantier à faire
         List<String> listeChantier = new ArrayList<>();
-        listeChantier.add("chantier 1");
-        listeChantier.add("chantier 2");
-        listeChantier.add("chantier 3");
+        listeChantier.add("DH/RH");
+        listeChantier.add("Essuyage");
+        listeChantier.add("Balayette");
+        listeChantier.add("Casser");
         ArrayAdapter<String> adapter_chantier = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeChantier);
         adapter_chantier.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerChantier.setAdapter(adapter_chantier);
@@ -123,6 +152,50 @@ public class manuel extends AppCompatActivity{
             }
         });
 
+        //Spinner de l'origine des palettes'
+        List<String> listeOrigine = new ArrayList<>();
+        listeOrigine.add("Atelier retri");
+        listeOrigine.add("Stockage moins de 15 jours");
+        listeOrigine.add("Stockage 15 jours à 1 mois");
+        listeOrigine.add("Stockage 1 mois à 3 mois");
+        listeOrigine.add("Stockage 3 mois à 6 mois");
+        listeOrigine.add("Stockage 6 mois à 9 mois");
+        listeOrigine.add("Stockage +9 mois");
+        ArrayAdapter<String> adapter_origine = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeOrigine);
+        adapter_origine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerOrigine.setAdapter(adapter_origine);
+        spinnerOrigine.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String text_origine = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //Spinner de commande
+        List<String> listeCommande = new ArrayList<>();
+        listeCommande.add("Oui");
+        listeCommande.add("Non");
+        ArrayAdapter<String> adapter_commande = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeCommande);
+        adapter_commande.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCommande.setAdapter(adapter_commande);
+        spinnerCommande.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String text_commande = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //Pour les photos
         initActivity();
     }
 
