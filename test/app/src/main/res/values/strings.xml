@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">test</string>
+    <string name="button">Button</string>
+    <string name="btn_automatique">btn_automatique</string>
+    <string name="btn_manuel">btn_manuel</string>
+    <string name="automatique">Automatique</string>
+    <string name="manuel">Manuel</string>
+    <string name="TextView_date_de_l_analyse">DATE de l\'analyse</string>
+    <string name="date">Date</string>
+    <string name="code_article">CODE ARTICLE</string>
+    <string name="date_de_l_analyse">DATE DE L\'ANALYSE</string>
+    <string name="textView_article">ARTICLE</string>
+    <string name="TextView_numero_de_palette">NUMERO DE PALETTE</string>
+    <string name="textView_numero_lot">NUMERO LOT</string>
+    <string name="textView_defaut">DEFAUT</string>
+    <string name="textView_chantier_a_faire">CHANTIER A FAIRE</string>
+    <string-array name="liste_Defaut">
+        <item>Palette mouillé</item>
+        <item>Palette troué</item>
+        <item>Palette cassé</item>
+    </string-array>
+</resources>
