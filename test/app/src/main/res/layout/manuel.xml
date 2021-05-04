@@ -23,6 +23,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/date_de_l_analyse" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
             <TextView
                 android:id="@+id/textView_Date"
                 android:layout_width="match_parent"
@@ -31,11 +36,21 @@
                 android:textColor="#090909"
                 android:textSize="18sp" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
             <TextView
                 android:id="@+id/textView_CodeArticle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/code_article" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
 
             <EditText
                 android:id="@+id/editText_codeArticle"
@@ -46,11 +61,21 @@
                 android:autofillHints=""
                 tools:ignore="LabelFor"/>
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
             <TextView
                 android:id="@+id/textView_Article"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/textView_article" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
 
             <EditText
                 android:id="@+id/editText_Article"
@@ -61,11 +86,21 @@
                 android:inputType="textPersonName"
                 tools:ignore="LabelFor" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
             <TextView
                 android:id="@+id/textView_NumPalette"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/TextView_numero_de_palette" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
 
             <EditText
                 android:id="@+id/editText_numPalette"
@@ -76,11 +111,21 @@
                 android:autofillHints=""
                 tools:ignore="LabelFor" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
             <TextView
                 android:id="@+id/textView_numLot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/textView_numero_lot" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
 
             <EditText
                 android:id="@+id/editText_numLot"
@@ -90,6 +135,11 @@
                 android:inputType="number"
                 android:autofillHints=""
                 tools:ignore="LabelFor"/>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
 
             <TextView
                 android:id="@+id/textView_defaut"
@@ -107,6 +157,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
             <TextView
                 android:id="@+id/textView_Chantier"
                 android:layout_width="match_parent"
@@ -123,11 +178,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
             <TextView
                 android:id="@+id/textView_originePalette"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/textView_origine_palette" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
 
             <EditText
                 android:id="@+id/editText_OriginePalette"
@@ -137,6 +202,11 @@
                 android:inputType="textPersonName"
                 android:autofillHints=""
                 tools:ignore="LabelFor" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
 
             <TextView
                 android:id="@+id/textView_responsabilite"
@@ -154,17 +224,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
             <TextView
                 android:id="@+id/textView_Photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tewtview_photo" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
             <Button
                 android:id="@+id/button_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_prendre_une_photo" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
 
             <ImageView
                 android:id="@+id/imageView_affichePhoto"
@@ -173,11 +258,21 @@
                 tools:srcCompat="@tools:sample/avatars"
                 android:contentDescription="@string/affichePhoto" />
 
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
             <TextView
                 android:id="@+id/textView_Commande"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/textviewCommande" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
 
             <EditText
                 android:id="@+id/editText_Commande"
@@ -187,6 +282,11 @@
                 android:inputType="textPersonName"
                 android:autofillHints=""
                 tools:ignore="LabelFor"/>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
 
             <Button
                 android:id="@+id/button_envoieManuel"
