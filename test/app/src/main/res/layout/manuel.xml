@@ -259,28 +259,7 @@
                 android:layout_height="10dp"
                 android:layout_weight="0" />
 
-            <TextView
-                android:id="@+id/textView_Commande"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/textviewCommande" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_weight="0" />
-
-            <Spinner
-                android:id="@+id/spinner_commande"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_weight="0" />
-
-            <Button
+          <Button
                 android:id="@+id/button_envoieManuel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

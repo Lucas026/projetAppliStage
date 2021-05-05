@@ -32,7 +32,7 @@ import java.util.List;
 public class manuel extends AppCompatActivity{
 
     TextView date;
-    EditText codeArticle, article, numPalette, commande;
+    EditText codeArticle, article, numPalette;
     Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine, spinnerCommande;
     Button btnPhoto;
     ImageView affichePhoto;
@@ -52,11 +52,11 @@ public class manuel extends AppCompatActivity{
         spinnerChantier = findViewById(R.id.spinner_chantier);
         spinnerResponsabilite = findViewById(R.id.spinner_reponsabilite);
         spinnerOrigine = findViewById(R.id.spinner_origine);
-        spinnerCommande = findViewById(R.id.spinner_commande);
 
         Calendar calendar = Calendar.getInstance();
-        String currentDate = DateFormat.getDateInstance().format(calendar.getTime());
-        date.setText(currentDate);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = df.format(calendar.getTime());
+        date.setText(formattedDate);
 
         codeArticle.getText();
         article.getText();
@@ -155,12 +155,8 @@ public class manuel extends AppCompatActivity{
         //Spinner de l'origine des palettes'
         List<String> listeOrigine = new ArrayList<>();
         listeOrigine.add("Atelier retri");
-        listeOrigine.add("Stockage moins de 15 jours");
-        listeOrigine.add("Stockage 15 jours à 1 mois");
-        listeOrigine.add("Stockage 1 mois à 3 mois");
-        listeOrigine.add("Stockage 3 mois à 6 mois");
-        listeOrigine.add("Stockage 6 mois à 9 mois");
-        listeOrigine.add("Stockage +9 mois");
+        listeOrigine.add("Production");
+        listeOrigine.add("Parc");
         ArrayAdapter<String> adapter_origine = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeOrigine);
         adapter_origine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerOrigine.setAdapter(adapter_origine);
@@ -168,25 +164,6 @@ public class manuel extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String text_origine = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        //Spinner de commande
-        List<String> listeCommande = new ArrayList<>();
-        listeCommande.add("Oui");
-        listeCommande.add("Non");
-        ArrayAdapter<String> adapter_commande = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeCommande);
-        adapter_commande.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCommande.setAdapter(adapter_commande);
-        spinnerCommande.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String text_commande = parent.getItemAtPosition(position).toString();
             }
 
             @Override
