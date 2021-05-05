@@ -23,5 +23,11 @@
     <string name="textView_commande">Commande</string>
     <string name="textviewCommande">COMMANDE</string>
     <string name="btn_envoyerManuel">ENVOYER</string>
+    <string name="textView_scan_something">Scan something ...</string>
+  <string name="btn_scan">Scan</string>
+  <string name="textview_afficheCode">TextView</string>
+  <string name="info_ici">Info ici</string>
+  <string name="scan_quelque_chose">Scan quelque chose ...</string>
+  <string name="scan">Scan</string>
 
 </resources>

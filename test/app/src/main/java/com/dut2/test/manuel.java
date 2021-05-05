@@ -136,7 +136,7 @@ public class manuel extends AppCompatActivity{
         //Spinner de la responsabilité
         List<String> listeResponsable = new ArrayList<>();
         listeResponsable.add("Verallia");
-        listeResponsable.add("Derichbourg");
+        listeResponsable.add("Derichebourg");
         ArrayAdapter<String> adapter_responsable = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeResponsable);
         adapter_chantier.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerResponsabilite.setAdapter(adapter_responsable);
