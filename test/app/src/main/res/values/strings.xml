@@ -29,5 +29,6 @@
   <string name="info_ici">Info ici</string>
   <string name="scan_quelque_chose">Scan quelque chose ...</string>
   <string name="scan">Scan</string>
+    <string name="textView_scan">SCAN</string>
 
 </resources>

@@ -1,26 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="192dp"
+    tools:layout_editor_absoluteY="246dp">
 
-  <Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/bt_scan"
-    android:text="@string/scan"
-    android:layout_centerInParent="true"/>
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical" >
 
-  <TextView
-    android:id="@+id/textView_afficheCode"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/scan_quelque_chose"
-    android:layout_below="@+id/bt_scan"
-    android:layout_centerHorizontal="true"
-    android:layout_margin="20dp"
-    android:textColor="@color/black"/>
+      <TextView
+        android:id="@+id/textView_date_analyse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/date_de_l_analyse" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <TextView
+        android:id="@+id/textView_Date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/date"
+        android:textColor="#090909"
+        android:textSize="18sp" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <TextView
+        android:id="@+id/textView_ScanAuto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_scan" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt_scan"
+        android:text="@string/scan" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <TextView
+        android:id="@+id/textView_afficheCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/scan_quelque_chose"
+        android:layout_margin="20dp"
+        android:textColor="@color/black"/>
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <TextView
+        android:id="@+id/textView_defaut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_defaut" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Spinner
+        android:id="@+id/spinner_defautAuto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <TextView
+        android:id="@+id/textView_Chantier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_chantier_a_faire" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Spinner
+        android:id="@+id/spinner_chantierAuto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <TextView
+        android:id="@+id/textView_originePalette"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_origine_palette" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Spinner
+        android:id="@+id/spinner_origineAuto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <TextView
+        android:id="@+id/textView_responsabilite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_responsabilite" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Spinner
+        android:id="@+id/spinner_reponsabiliteAuto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <TextView
+        android:id="@+id/textView_Photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tewtview_photo" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Button
+        android:id="@+id/button_photoAuto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_prendre_une_photo" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <ImageView
+        android:id="@+id/imageView_affichePhotoAuto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/affichePhoto"
+        tools:srcCompat="@tools:sample/avatars" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Button
+        android:id="@+id/button_envoieAuto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_envoyerManuel" />
+
+    </LinearLayout>
+  </ScrollView>
 
 
 </RelativeLayout>

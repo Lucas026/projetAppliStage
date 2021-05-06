@@ -32,7 +32,7 @@ import java.util.List;
 public class manuel extends AppCompatActivity{
 
     TextView date;
-    EditText codeArticle, article, numPalette;
+    EditText codeArticle, article, numPalette, numLot;
     Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine, spinnerCommande;
     Button btnPhoto;
     ImageView affichePhoto;
@@ -48,6 +48,7 @@ public class manuel extends AppCompatActivity{
         codeArticle = findViewById(R.id.editText_codeArticle);
         article = findViewById(R.id.editText_Article);
         numPalette = findViewById(R.id.editText_numPalette);
+        numLot= findViewById(R.id.editText_numLot);
         spinnerDefaut = findViewById(R.id.spinner_defaut);
         spinnerChantier = findViewById(R.id.spinner_chantier);
         spinnerResponsabilite = findViewById(R.id.spinner_reponsabilite);
@@ -61,6 +62,7 @@ public class manuel extends AppCompatActivity{
         codeArticle.getText();
         article.getText();
         numPalette.getText();
+        numLot.getText();
 
         //Spinner des defauts
         List<String> listeDefaut = new ArrayList<>();
