@@ -3,6 +3,8 @@ package com.dut2.test;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -31,10 +34,10 @@ import java.util.List;
 
 public class manuel extends AppCompatActivity{
 
-    TextView date;
+    TextView date, textViewImage;
     EditText codeArticle, article, numPalette, numLot;
     Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine, spinnerCommande;
-    Button btnPhoto;
+    Button btnPhoto, btnEnvoie;
     ImageView affichePhoto;
     String photoPaths;
 
@@ -53,6 +56,8 @@ public class manuel extends AppCompatActivity{
         spinnerChantier = findViewById(R.id.spinner_chantier);
         spinnerResponsabilite = findViewById(R.id.spinner_reponsabilite);
         spinnerOrigine = findViewById(R.id.spinner_origine);
+        btnEnvoie = findViewById(R.id.button_envoieManuel);
+        textViewImage = findViewById(R.id.textView_Photo);
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -66,39 +71,39 @@ public class manuel extends AppCompatActivity{
 
         //Spinner des defauts
         List<String> listeDefaut = new ArrayList<>();
-        listeDefaut.add("Trou jonction join");
         listeDefaut.add("Absence tapis de sol");
-        listeDefaut.add("Chapeau décalé / mal mis");
         listeDefaut.add("Bac mal collé");
-        listeDefaut.add("Manque liens / détendus / mal positionnés");
+        listeDefaut.add("Chapeau décalé / mal mis");
+        listeDefaut.add("Chocs manutention");
+        listeDefaut.add("Cols cassés");
         listeDefaut.add("Cols manquant");
-        listeDefaut.add("Double plaque / plaque manquante");
-        listeDefaut.add("Plaque décalée");
-        listeDefaut.add("Lit en boule");
-        listeDefaut.add("Verticalité palette");
-        listeDefaut.add("Mauvaise soudure de toit");
+        listeDefaut.add("Condensation");
+        listeDefaut.add("Corps étranger dans palette (insectes, etc...)");
+        listeDefaut.add("Coup de fourche");
         listeDefaut.add("Demi lune");
-        listeDefaut.add("Pli craquelé");
+        listeDefaut.add("Double plaque / plaque manquante");
+        listeDefaut.add("Etiquette tombée / Mal positionnée / Colle sur bouteille");
+        listeDefaut.add("Housse déchiré");
+        listeDefaut.add("Housse mal rétracté");
+        listeDefaut.add("Lit en boule");
+        listeDefaut.add("Manque liens / détendus / mal positionnés");
+        listeDefaut.add("Mauvaise soudure de toit");
+        listeDefaut.add("Mauvais étiquetage");
+        listeDefaut.add("Mauvais soudure tapis au sol");
+        listeDefaut.add("Palettes bois KC");
+        listeDefaut.add("Petit trou (2-3mm) origine brûlure");
         listeDefaut.add("Pli chapeau");
+        listeDefaut.add("Pli craquelé");
+        listeDefaut.add("Plaque décalée");
+        listeDefaut.add("Sale(Poussière, fientes, oiseaux, etc...)");
+        listeDefaut.add("Sans étiquette");
         listeDefaut.add("Trou angle de coiffe");
         listeDefaut.add("Trou de chauffe");
         listeDefaut.add("Trou angle de bac");
         listeDefaut.add("Trou angle PPA");
-        listeDefaut.add("Mauvais soudure tapis au sol");
-        listeDefaut.add("Housse mal rétracté");
-        listeDefaut.add("Petit trou (2-3mm) origine brûlure");
-        listeDefaut.add("Coup de fourche");
-        listeDefaut.add("Cols cassés");
-        listeDefaut.add("Housse déchiré");
-        listeDefaut.add("Chocs manutention");
+        listeDefaut.add("Trou jonction join");
         listeDefaut.add("Trou sur coiffe à la manipulation");
-        listeDefaut.add("Palettes bois KC");
-        listeDefaut.add("Mauvais étiquetage");
-        listeDefaut.add("Etiquette tombée / Mal positionnée / Colle sur bouteille");
-        listeDefaut.add("Sans étiquette");
-        listeDefaut.add("Sale(Poussière, fientes, oiseaux, etc...)");
-        listeDefaut.add("Condensation");
-        listeDefaut.add("Corps étranger dans palette (insectes, etc...)");
+        listeDefaut.add("Verticalité palette");
         ArrayAdapter<String> adapter_defaut = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeDefaut);
         adapter_defaut.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDefaut.setAdapter(adapter_defaut);
@@ -116,10 +121,10 @@ public class manuel extends AppCompatActivity{
 
         //Spinner des chantier à faire
         List<String> listeChantier = new ArrayList<>();
-        listeChantier.add("DH/RH");
-        listeChantier.add("Essuyage");
         listeChantier.add("Balayette");
         listeChantier.add("Casser");
+        listeChantier.add("DH/RH");
+        listeChantier.add("Essuyage");
         ArrayAdapter<String> adapter_chantier = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeChantier);
         adapter_chantier.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerChantier.setAdapter(adapter_chantier);
@@ -137,8 +142,8 @@ public class manuel extends AppCompatActivity{
 
         //Spinner de la responsabilité
         List<String> listeResponsable = new ArrayList<>();
-        listeResponsable.add("Verallia");
         listeResponsable.add("Derichebourg");
+        listeResponsable.add("Verallia");
         ArrayAdapter<String> adapter_responsable = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeResponsable);
         adapter_chantier.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerResponsabilite.setAdapter(adapter_responsable);
@@ -157,8 +162,8 @@ public class manuel extends AppCompatActivity{
         //Spinner de l'origine des palettes'
         List<String> listeOrigine = new ArrayList<>();
         listeOrigine.add("Atelier retri");
-        listeOrigine.add("Production");
         listeOrigine.add("Parc");
+        listeOrigine.add("Production");
         ArrayAdapter<String> adapter_origine = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listeOrigine);
         adapter_origine.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerOrigine.setAdapter(adapter_origine);
@@ -176,9 +181,17 @@ public class manuel extends AppCompatActivity{
 
         //Pour les photos
         initActivity();
+
+      btnEnvoie.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          if(VerifCodeArticle() && VerifArticle() && VerifDeLot() && VerifNumPalette() && VerifPhoto()){
+            Intent intent = new Intent(manuel.this, accueil.class);
+            startActivity(intent);
+          }
+        }
+      });
     }
-
-
 
     private void initActivity(){
         btnPhoto = (Button) findViewById(R.id.button_photo);
@@ -226,4 +239,60 @@ public class manuel extends AppCompatActivity{
             affichePhoto.setImageBitmap(image);
         }
     }
+
+    private boolean VerifCodeArticle(){
+      if(codeArticle.getText().toString().isEmpty()){
+        codeArticle.setError("Vous n'avez rien entrer");
+        codeArticle.requestFocus();
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+
+    private boolean VerifArticle(){
+      if(article.getText().toString().isEmpty()){
+        article.setError("Vous n'avez rien entrer");
+        article.requestFocus();
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+
+  private boolean VerifNumPalette(){
+    if(numPalette.getText().toString().isEmpty()){
+      numPalette.setError("Vous n'avez rien entrer");
+      numPalette.requestFocus();
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  private boolean VerifDeLot(){
+    if(numLot.getText().toString().isEmpty()){
+      numLot.setError("Vous n'avez rien entrer");
+      numLot.requestFocus();
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+
+  private boolean VerifPhoto(){
+    if(null == affichePhoto.getDrawable()){
+      textViewImage.setError("Vous n'avez pas pris de photo");
+      textViewImage.requestFocus();
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
 }

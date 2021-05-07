@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.InetAddresses;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,11 +35,13 @@ import java.util.List;
 
 public class automatique extends AppCompatActivity {
 
-  Button Scan, btnPhoto;
-  TextView afficheScan, date;
+  Button Scan, btnPhoto, btnEnvoie;
+  TextView afficheScan, date, textViewImage;
   Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine, spinnerCommande;
   ImageView affichePhoto;
   String photoPaths;
+
+  public static int REQUEST_CODE = 0x0000c0de;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -52,22 +55,27 @@ public class automatique extends AppCompatActivity {
     spinnerChantier = findViewById(R.id.spinner_chantierAuto);
     spinnerResponsabilite = findViewById(R.id.spinner_reponsabiliteAuto);
     spinnerOrigine = findViewById(R.id.spinner_origineAuto);
+    textViewImage = findViewById(R.id.textView_Photo);
+    btnEnvoie = findViewById(R.id.btn_auto);
 
     Scan.setOnClickListener(new View.OnClickListener() {
 
+      public void setRequestCode(int requestCode) {
+        REQUEST_CODE = requestCode;
+      }
+
       @Override
       public void onClick(View v) {
+        int requestCode = 2;
         IntentIntegrator intentIntegrator = new IntentIntegrator(automatique.this);
-        //Intent intent = intentIntegrator.createScanIntent();
         intentIntegrator.setPrompt("Pour le flash utiliser le bouton haut du son");
         intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
         intentIntegrator.setBeepEnabled(true);
         intentIntegrator.setOrientationLocked(true);
         intentIntegrator.setCaptureActivity(Capture.class);
         intentIntegrator.setBarcodeImageEnabled(false);
-        intentIntegrator.setRequestCode(1);
+        intentIntegrator.setRequestCode(requestCode);
         intentIntegrator.initiateScan();
-        //startActivityForResult(intent, REQUEST_CODE);
       }
     });
 
@@ -188,6 +196,18 @@ public class automatique extends AppCompatActivity {
 
     //Pour les photos
    initActivity();
+
+   /*
+    btnEnvoie.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if(VerifPhoto()){
+          Intent intent = new Intent(automatique.this, accueil.class);
+          startActivity(intent);
+        }
+      }
+    });
+    */
   }
 
   private void initActivity(){
@@ -215,7 +235,7 @@ public class automatique extends AppCompatActivity {
         photoPaths = photoFile.getAbsolutePath();
         Uri photoUri = FileProvider.getUriForFile(automatique.this, automatique.this.getApplicationContext().getPackageName() + ".provider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-        startActivityForResult(intent, 2);
+        startActivityForResult(intent, 1);
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -226,24 +246,28 @@ public class automatique extends AppCompatActivity {
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
     super.onActivityResult(requestCode, resultCode, data);
-    IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
-    switch (requestCode){
-      case(2):
-        Bitmap image = BitmapFactory.decodeFile(photoPaths);
-        affichePhoto.setImageBitmap(image);
-        break;
-      //ne marche pas pour l'instant
-      case (1):
-        if(intentResult.getContents() != null){
-          afficheScan.setText(intentResult.getContents());
-        }else{
-          Toast.makeText(getApplicationContext(), "Vous n'avez rien scannez", Toast.LENGTH_SHORT).show();
-        }
-        break;
+    if(requestCode == 1){
+      Bitmap image = BitmapFactory.decodeFile(photoPaths);
+      affichePhoto.setImageBitmap(image);
+    }else if (requestCode == 2){
+      IntentResult intentResult = IntentIntegrator.parseActivityResult(resultCode ,data);
+      if(intentResult.getContents() != null){
+        afficheScan.setText(intentResult.getContents());
+      }else{
+        Toast.makeText(getApplicationContext(), "Vous n'avez rien scannez", Toast.LENGTH_SHORT).show();
+      }
+    }
+  }
 
-      default:
-        break;
+  private boolean VerifPhoto(){
+    if(null == affichePhoto.getDrawable()){
+      textViewImage.setError("Vous n'avez pas pris de photo");
+      textViewImage.requestFocus();
+      return false;
+    }
+    else{
+      return true;
     }
   }
 }
