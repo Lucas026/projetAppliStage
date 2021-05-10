@@ -1,10 +1,8 @@
 package com.dut2.test;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.InetAddresses;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -56,7 +54,7 @@ public class automatique extends AppCompatActivity {
     spinnerResponsabilite = findViewById(R.id.spinner_reponsabiliteAuto);
     spinnerOrigine = findViewById(R.id.spinner_origineAuto);
     textViewImage = findViewById(R.id.textView_Photo);
-    btnEnvoie = findViewById(R.id.btn_auto);
+    btnEnvoie = findViewById(R.id.btn_bdd);
 
     Scan.setOnClickListener(new View.OnClickListener() {
 
@@ -197,17 +195,17 @@ public class automatique extends AppCompatActivity {
     //Pour les photos
    initActivity();
 
-   /*
+/*
     btnEnvoie.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         if(VerifPhoto()){
-          Intent intent = new Intent(automatique.this, accueil.class);
+          Intent intent = new Intent(automatique.this, validation.class);
           startActivity(intent);
         }
       }
     });
-    */
+*/
   }
 
   private void initActivity(){

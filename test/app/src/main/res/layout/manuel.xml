@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/code_article" />
 
+
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="10dp"
@@ -61,80 +62,83 @@
                 android:autofillHints=""
                 tools:ignore="LabelFor"/>
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_weight="0" />
+              <!--
+                      <Space
+                          android:layout_width="wrap_content"
+                          android:layout_height="10dp"
+                          android:layout_weight="0" />
 
-            <TextView
-                android:id="@+id/textView_Article"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/textView_article" />
+                      <TextView
+                          android:id="@+id/textView_Article"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/textView_article" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_weight="0" />
+                      <Space
+                          android:layout_width="wrap_content"
+                          android:layout_height="10dp"
+                          android:layout_weight="0" />
 
-            <EditText
-                android:id="@+id/editText_Article"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:inputType="textPersonName"
-                tools:ignore="LabelFor" />
+                      <EditText
+                          android:id="@+id/editText_Article"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:autofillHints=""
+                          android:ems="10"
+                          android:inputType="textPersonName"
+                          tools:ignore="LabelFor" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_weight="0" />
+                      <Space
+                          android:layout_width="wrap_content"
+                          android:layout_height="10dp"
+                          android:layout_weight="0" />
 
-            <TextView
-                android:id="@+id/textView_NumPalette"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/TextView_numero_de_palette" />
+                      <TextView
+                          android:id="@+id/textView_NumPalette"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/TextView_numero_de_palette" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_weight="0" />
+                      <Space
+                          android:layout_width="wrap_content"
+                          android:layout_height="10dp"
+                          android:layout_weight="0" />
 
-            <EditText
-                android:id="@+id/editText_numPalette"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:autofillHints=""
-                tools:ignore="LabelFor" />
+                      <EditText
+                          android:id="@+id/editText_numPalette"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:ems="10"
+                          android:inputType="number"
+                          android:autofillHints=""
+                          tools:ignore="LabelFor" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_weight="0" />
+                      <Space
+                          android:layout_width="wrap_content"
+                          android:layout_height="10dp"
+                          android:layout_weight="0" />
 
-            <TextView
-                android:id="@+id/textView_numLot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/textView_numero_lot" />
+                      <TextView
+                          android:id="@+id/textView_numLot"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/textView_numero_lot" />
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"
-                android:layout_weight="0" />
+                      <Space
+                          android:layout_width="wrap_content"
+                          android:layout_height="10dp"
+                          android:layout_weight="0" />
 
-            <EditText
-                android:id="@+id/editText_numLot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:autofillHints=""
-                tools:ignore="LabelFor"/>
+                      <EditText
+                          android:id="@+id/editText_numLot"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:ems="10"
+                          android:inputType="number"
+                          android:autofillHints=""
+                          tools:ignore="LabelFor"/>
+
+                      -->
 
             <Space
                 android:layout_width="wrap_content"

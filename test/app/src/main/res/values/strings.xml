@@ -30,5 +30,11 @@
   <string name="scan_quelque_chose">Scan quelque chose ...</string>
   <string name="scan">Scan</string>
     <string name="textView_scan">SCAN</string>
+    <string name="valid_imageview">TODO</string>
+  <string name="retour_l_accueil">Retour à l\'accueil</string>
+  <string name="backgrounf_acceuil">TODO</string>
+    <string name="btn_base_de_donn_es">Base de données</string>
+  <string name="btn_enregistrer_les_palettes_nc">Enregistrer les palettes NC</string>
+  <string name="donn_es_enregistr_s">Données enregistrés</string>
 
 </resources>

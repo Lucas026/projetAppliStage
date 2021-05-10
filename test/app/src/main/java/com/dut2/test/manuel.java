@@ -1,6 +1,7 @@
 package com.dut2.test;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -41,6 +44,7 @@ public class manuel extends AppCompatActivity{
     ImageView affichePhoto;
     String photoPaths;
 
+    SQLiteHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +53,9 @@ public class manuel extends AppCompatActivity{
 
         date = findViewById(R.id.textView_Date);
         codeArticle = findViewById(R.id.editText_codeArticle);
-        article = findViewById(R.id.editText_Article);
-        numPalette = findViewById(R.id.editText_numPalette);
-        numLot= findViewById(R.id.editText_numLot);
+        //article = findViewById(R.id.editText_Article);
+        //numPalette = findViewById(R.id.editText_numPalette);
+        //numLot= findViewById(R.id.editText_numLot);
         spinnerDefaut = findViewById(R.id.spinner_defaut);
         spinnerChantier = findViewById(R.id.spinner_chantier);
         spinnerResponsabilite = findViewById(R.id.spinner_reponsabilite);
@@ -63,11 +67,6 @@ public class manuel extends AppCompatActivity{
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = df.format(calendar.getTime());
         date.setText(formattedDate);
-
-        codeArticle.getText();
-        article.getText();
-        numPalette.getText();
-        numLot.getText();
 
         //Spinner des defauts
         List<String> listeDefaut = new ArrayList<>();
@@ -181,22 +180,37 @@ public class manuel extends AppCompatActivity{
 
         //Pour les photos
         initActivity();
-
-      btnEnvoie.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          if(VerifCodeArticle() && VerifArticle() && VerifDeLot() && VerifNumPalette() && VerifPhoto()){
-            Intent intent = new Intent(manuel.this, accueil.class);
-            startActivity(intent);
-          }
-        }
-      });
     }
 
     private void initActivity(){
         btnPhoto = (Button) findViewById(R.id.button_photo);
         affichePhoto = (ImageView) findViewById(R.id.imageView_affichePhoto);
         createOnClickBtnPhoto();
+        createOnClickEnvoie();
+    }
+
+    private void createOnClickEnvoie(){
+      btnEnvoie.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          if(VerifCodeArticle() && VerifPhoto()){
+
+            Bitmap image = BitmapFactory.decodeFile(photoPaths);
+
+            // convert bitmap to byte
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] imageInByte = stream.toByteArray();
+
+            db = new SQLiteHelper(getApplicationContext());
+            if(db.addBDD(codeArticle.getText().toString(), date.getText().toString(), spinnerDefaut.getSelectedItem().toString(), spinnerChantier.getSelectedItem().toString(),
+              spinnerOrigine.getSelectedItem().toString(), spinnerResponsabilite.getSelectedItem().toString(), imageInByte)){
+              Intent intent = new Intent(manuel.this, validation.class);
+              startActivity(intent);
+            }
+          }
+        }
+      });
     }
 
     private void createOnClickBtnPhoto(){
@@ -214,7 +228,7 @@ public class manuel extends AppCompatActivity{
             String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             try {
-                File photoFile = File.createTempFile("photo"+time,".jpg", photoDir);
+                File photoFile = File.createTempFile("photo" + time,".jpg", photoDir);
                 photoPaths = photoFile.getAbsolutePath();
                 Uri photoUri = FileProvider.getUriForFile(manuel.this, manuel.this.getApplicationContext().getPackageName() + ".provider", photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
@@ -235,8 +249,8 @@ public class manuel extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && resultCode == RESULT_OK){
-            Bitmap image = BitmapFactory.decodeFile(photoPaths);
-            affichePhoto.setImageBitmap(image);
+          Bitmap image = BitmapFactory.decodeFile(photoPaths);
+          affichePhoto.setImageBitmap(image);
         }
     }
 
@@ -251,6 +265,18 @@ public class manuel extends AppCompatActivity{
       }
     }
 
+  private boolean VerifPhoto(){
+    if(null == affichePhoto.getDrawable()){
+      textViewImage.setError("Vous n'avez pas pris de photo");
+      textViewImage.requestFocus();
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+    /*
     private boolean VerifArticle(){
       if(article.getText().toString().isEmpty()){
         article.setError("Vous n'avez rien entrer");
@@ -283,16 +309,5 @@ public class manuel extends AppCompatActivity{
       return true;
     }
   }
-
-
-  private boolean VerifPhoto(){
-    if(null == affichePhoto.getDrawable()){
-      textViewImage.setError("Vous n'avez pas pris de photo");
-      textViewImage.requestFocus();
-      return false;
-    }
-    else{
-      return true;
-    }
-  }
+  */
 }
