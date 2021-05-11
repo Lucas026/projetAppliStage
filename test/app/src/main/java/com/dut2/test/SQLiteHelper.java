@@ -12,8 +12,8 @@ import androidx.annotation.Nullable;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-  public static String BDD_NAME="PaletteNCBDD", TABLE_NAME="PaletteNC", CODE_ARTICLE="code_article";
-  public static String DATE="date", DEFAUT="DEFAUT", CHANTIER="CHANTIER", ORIGINE="ORIGINE", RESPONSABILITE="RESPONSABILITE", PHOTO="PHOTO";
+  public static String BDD_NAME="PaletteNCBDD", TABLE_NAME="PaletteNC", ID="_id";
+  public static String CODE_ARTICLE="code_article", DATE="date", DEFAUT="DEFAUT", CHANTIER="CHANTIER", ORIGINE="ORIGINE", RESPONSABILITE="RESPONSABILITE", PHOTO="PHOTO";
 
   public SQLiteHelper(@Nullable Context context) {
     super(context, BDD_NAME, null, 1);
@@ -34,12 +34,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     */
     String sql =
       "CREATE TABLE " + TABLE_NAME +" (" +
-        CODE_ARTICLE + " INTEGER PRIMARY KEY," +
+        ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+        CODE_ARTICLE + " INTEGER," +
         DATE + " DATE," +
         DEFAUT + " TEXT," +
         CHANTIER + " TEXT," +
         ORIGINE + " TEXT," +
-        RESPONSABILITE + " TEXT)";
+        RESPONSABILITE + " TEXT," +
+        PHOTO + " BLOB)";
     db.execSQL(sql);
   }
 
@@ -51,7 +53,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     onCreate(db);
   }
 
-  boolean addBDD(String codeArticle, String date, String defaut, String chantier, String origine, String responsabilite/*, byte[] photo*/){
+  boolean addBDD(String codeArticle, String date, String defaut, String chantier, String origine, String responsabilite, byte[] photo){
 
     SQLiteDatabase db = this.getWritableDatabase();
 
@@ -62,7 +64,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     data.put(CHANTIER, chantier);
     data.put(ORIGINE, origine);
     data.put(RESPONSABILITE, responsabilite);
-    //data.put(PHOTO, photo);
+    data.put(PHOTO, photo);
 
     long result = db.insert(TABLE_NAME, null, data);
     if(result != -1){
@@ -84,7 +86,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     return cursor;
     */
     SQLiteDatabase db = this.getReadableDatabase();
-    Cursor mCursor = db.query(TABLE_NAME, new String[] {CODE_ARTICLE, DATE, DEFAUT, CHANTIER, ORIGINE, RESPONSABILITE}, null, null, null, null, null);
+    Cursor mCursor = db.query(TABLE_NAME, new String[] {ID, CODE_ARTICLE, DATE, DEFAUT, CHANTIER, ORIGINE, RESPONSABILITE}, null, null, null, null, null);
 
     if(mCursor != null){
       mCursor.moveToFirst();
@@ -98,10 +100,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     SQLiteDatabase db = this.getReadableDatabase();
     Cursor mCursor = null;
     if(inputText == null || inputText.length() == 0){
-      mCursor = db.query(TABLE_NAME, new String[] {CODE_ARTICLE, DATE, DEFAUT, CHANTIER, ORIGINE, RESPONSABILITE}, null, null, null, null, null);
+      mCursor = db.query(TABLE_NAME, new String[] {ID, CODE_ARTICLE, DATE, DEFAUT, CHANTIER, ORIGINE, RESPONSABILITE}, null, null, null, null, null);
     }
     else{
-      mCursor = db.query(TABLE_NAME, new String[] {CODE_ARTICLE, DATE, DEFAUT, CHANTIER, ORIGINE, RESPONSABILITE}, CODE_ARTICLE + " like '%" + inputText + "%'", null, null, null, null, null);
+      mCursor = db.query(TABLE_NAME, new String[] {ID, CODE_ARTICLE, DATE, DEFAUT, CHANTIER, ORIGINE, RESPONSABILITE}, CODE_ARTICLE + " like '%" + inputText + "%'", null, null, null, null, null);
     }
     if(mCursor != null){
       mCursor.moveToFirst();

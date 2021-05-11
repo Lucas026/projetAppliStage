@@ -193,18 +193,18 @@ public class manuel extends AppCompatActivity{
       btnEnvoie.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          if(VerifCodeArticle() /*&& VerifPhoto()*/){
-            /*
+          if(VerifCodeArticle() && VerifPhoto()){
+
             Bitmap image = BitmapFactory.decodeFile(photoPaths);
 
             // convert bitmap to byte
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             byte[] imageInByte = stream.toByteArray();
-            */
+
             db = new SQLiteHelper(getApplicationContext());
             if(db.addBDD(codeArticle.getText().toString(), date.getText().toString(), spinnerDefaut.getSelectedItem().toString(), spinnerChantier.getSelectedItem().toString(),
-              spinnerOrigine.getSelectedItem().toString(), spinnerResponsabilite.getSelectedItem().toString()/*, imageInByte*/)){
+              spinnerOrigine.getSelectedItem().toString(), spinnerResponsabilite.getSelectedItem().toString(), imageInByte)){
               Intent intent = new Intent(manuel.this, validation.class);
               startActivity(intent);
             }
