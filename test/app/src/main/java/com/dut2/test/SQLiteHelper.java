@@ -2,6 +2,8 @@ package com.dut2.test;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.Editable;
@@ -19,6 +21,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
   @Override
   public void onCreate(SQLiteDatabase db) {
+    /*
     String sql =
             "CREATE TABLE " + TABLE_NAME +" (" +
                     CODE_ARTICLE + " INTEGER PRIMARY KEY," +
@@ -28,6 +31,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     ORIGINE + " TEXT," +
                     RESPONSABILITE + " TEXT," +
                     PHOTO + " BLOB)";
+    */
+    String sql =
+      "CREATE TABLE " + TABLE_NAME +" (" +
+        CODE_ARTICLE + " INTEGER PRIMARY KEY," +
+        DATE + " DATE," +
+        DEFAUT + " TEXT," +
+        CHANTIER + " TEXT," +
+        ORIGINE + " TEXT," +
+        RESPONSABILITE + " TEXT)";
     db.execSQL(sql);
   }
 
@@ -39,7 +51,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     onCreate(db);
   }
 
-  boolean addBDD(String codeArticle, String date, String defaut, String chantier, String origine, String responsabilite, byte[] photo){
+  boolean addBDD(String codeArticle, String date, String defaut, String chantier, String origine, String responsabilite/*, byte[] photo*/){
 
     SQLiteDatabase db = this.getWritableDatabase();
 
@@ -50,7 +62,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     data.put(CHANTIER, chantier);
     data.put(ORIGINE, origine);
     data.put(RESPONSABILITE, responsabilite);
-    data.put(PHOTO, photo);
+    //data.put(PHOTO, photo);
 
     long result = db.insert(TABLE_NAME, null, data);
     if(result != -1){
@@ -62,4 +74,38 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
   }
 
+  public Cursor affichePaletteBDD(){
+    /*
+    SQLiteDatabase db = this.getReadableDatabase();
+
+    String query = "SELECT * FROM " + TABLE_NAME;
+    Cursor cursor = db.rawQuery(query, null);
+
+    return cursor;
+    */
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor mCursor = db.query(TABLE_NAME, new String[] {CODE_ARTICLE, DATE, DEFAUT, CHANTIER, ORIGINE, RESPONSABILITE}, null, null, null, null, null);
+
+    if(mCursor != null){
+      mCursor.moveToFirst();
+    }
+    return  mCursor;
+  }
+
+
+
+  public Cursor fetchAfficheByName(String inputText) throws SQLException{
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor mCursor = null;
+    if(inputText == null || inputText.length() == 0){
+      mCursor = db.query(TABLE_NAME, new String[] {CODE_ARTICLE, DATE, DEFAUT, CHANTIER, ORIGINE, RESPONSABILITE}, null, null, null, null, null);
+    }
+    else{
+      mCursor = db.query(TABLE_NAME, new String[] {CODE_ARTICLE, DATE, DEFAUT, CHANTIER, ORIGINE, RESPONSABILITE}, CODE_ARTICLE + " like '%" + inputText + "%'", null, null, null, null, null);
+    }
+    if(mCursor != null){
+      mCursor.moveToFirst();
+    }
+    return  mCursor;
+  }
 }

@@ -36,5 +36,20 @@
     <string name="btn_base_de_donn_es">Base de données</string>
   <string name="btn_enregistrer_les_palettes_nc">Enregistrer les palettes NC</string>
   <string name="donn_es_enregistr_s">Données enregistrés</string>
+  <string name="textView_affiche_bdd">Affiche BDD</string>
+    <string name="textViewcode_article">Code article:</string>
+  <string name="textViewdate">Date:</string>
+  <string name="textViewdefaut">Defaut:</string>
+  <string name="textViewchantier">Chantier:</string>
+  <string name="textVieworigine">Origine:</string>
+  <string name="textViewresponsabilite">Responsabilite:</string>
+  <string name="textViewphoto">Photo:</string>
+  <string name="afficheCode">TextView</string>
+  <string name="afficheDate">TextView</string>
+  <string name="afficheDefaut">TextView</string>
+  <string name="afficheChantier">TextView</string>
+  <string name="afficheResponsabilite">TextView</string>
+  <string name="afficheresponsabilite">TextView</string>
+  <string name="afficheePhoto">TODO</string>
 
 </resources>

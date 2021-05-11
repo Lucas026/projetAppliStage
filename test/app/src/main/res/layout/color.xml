@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:padding="6dip" >
+
+  <TextView
+    android:id="@+id/textView_code_article"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:text="Code article : "
+    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+  <TextView
+    android:id="@+id/textView_date"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/textView_code_article"
+    android:layout_below="@+id/textView_code_article"
+    android:text="Date : "
+    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+  <TextView
+    android:id="@+id/textView_defaut"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/textView_date"
+    android:layout_below="@+id/textView_date"
+    android:text="Défaut : "
+    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+  <TextView
+    android:id="@+id/textView_chantier"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/textView_defaut"
+    android:layout_below="@+id/textView_defaut"
+    android:text="Chantier : "
+    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+  <TextView
+    android:id="@+id/textView_origine"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/textView_chantier"
+    android:layout_below="@+id/textView_chantier"
+    android:text="Origine : "
+    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+  <TextView
+    android:id="@+id/textView_responsabilite"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/textView_origine"
+    android:layout_below="@+id/textView_origine"
+    android:text="Responsabilité : "
+    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+
+
+
+  <TextView
+    android:id="@+id/code_article"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/textView_code_article"
+    android:layout_alignBottom="@+id/textView_code_article"
+    android:layout_toRightOf="@+id/textView_code_article"
+    android:text="TextView" />
+
+
+  <TextView
+    android:id="@+id/date"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/textView_date"
+    android:layout_alignBottom="@+id/textView_date"
+    android:layout_toRightOf="@+id/textView_date"
+    android:text="TextView" />
+
+  <TextView
+    android:id="@+id/defaut"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/textView_defaut"
+    android:layout_alignBottom="@+id/textView_defaut"
+    android:layout_toRightOf="@+id/textView_defaut"
+    android:text="TextView" />
+
+  <TextView
+    android:id="@+id/chantier"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/textView_chantier"
+    android:layout_alignBottom="@+id/textView_chantier"
+    android:layout_toRightOf="@+id/textView_chantier"
+    android:text="TextView" />
+
+  <TextView
+    android:id="@+id/origine"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/textView_origine"
+    android:layout_alignBottom="@+id/textView_origine"
+    android:layout_toRightOf="@+id/textView_origine"
+    android:text="TextView" />
+
+  <TextView
+    android:id="@+id/responsabilite"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/textView_responsabilite"
+    android:layout_alignBottom="@+id/textView_responsabilite"
+    android:layout_toRightOf="@+id/textView_responsabilite"
+    android:text="TextView" />
+
+</RelativeLayout>
