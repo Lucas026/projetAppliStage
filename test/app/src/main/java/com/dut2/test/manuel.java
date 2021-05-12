@@ -1,9 +1,13 @@
 package com.dut2.test;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -16,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,7 +34,8 @@ import java.util.List;
 
 public class manuel extends AppCompatActivity{
 
-    TextView date, textViewImage;
+  private static final int CUTE_PHOTO = 2;
+  TextView date, textViewImage;
     EditText codeArticle, article, numPalette, numLot;
     Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine;
     Button btnPhoto, btnEnvoie;
@@ -186,17 +193,19 @@ public class manuel extends AppCompatActivity{
       btnEnvoie.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          if(VerifCodeArticle() && VerifPhoto()){
+          if(VerifCodeArticle() /*&& VerifPhoto()*/){
 
+            /*
             Bitmap image = BitmapFactory.decodeFile(photoPaths);
             // convert bitmap to byte
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] imageInByte = stream.toByteArray();
+            */
 
             db = new SQLiteHelper(getApplicationContext());
             if(db.addBDD(codeArticle.getText().toString(), date.getText().toString(), spinnerDefaut.getSelectedItem().toString(), spinnerChantier.getSelectedItem().toString(),
-              spinnerOrigine.getSelectedItem().toString(), spinnerResponsabilite.getSelectedItem().toString(), imageInByte)){
+              spinnerOrigine.getSelectedItem().toString(), spinnerResponsabilite.getSelectedItem().toString()/*, imageInByte*/)){
               Intent intent = new Intent(manuel.this, validation.class);
               startActivity(intent);
             }
@@ -205,15 +214,17 @@ public class manuel extends AppCompatActivity{
       });
     }
 
+
     private void createOnClickBtnPhoto(){
         btnPhoto.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                prendreUnePhoto();
+                //prendreUnePhoto();
+              openCamera();
             }
         });
     }
-
+/*
     private void prendreUnePhoto(){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getPackageManager()) != null){
@@ -230,7 +241,55 @@ public class manuel extends AppCompatActivity{
             }
         }
     }
+*/
 
+  private Uri photoUri;
+
+  public void openCamera()  {
+
+    File outputImg = new File(affichePhoto.getContext().getExternalCacheDir(), System.currentTimeMillis() + ".jpg");
+    if (outputImg.exists()) {
+      outputImg.delete();
+    }
+    try {
+      outputImg.createNewFile();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    if (Build.VERSION.SDK_INT >= 24) {
+      photoUri = FileProvider.getUriForFile(affichePhoto.getContext(),
+        manuel.this.getApplicationContext().getPackageName() + ".provider", outputImg);
+    } else {
+      photoUri = Uri.fromFile(outputImg);
+    }
+    // check for camera permission
+    int permissionCheck = ContextCompat.checkSelfPermission(affichePhoto.getContext(), Manifest.permission.CAMERA);
+
+    // do we have camera permission?
+    if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+
+      Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+      if(intent.resolveActivity(getPackageManager()) != null){
+        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        try {
+          File photoFile = File.createTempFile("photo" + time,".png", photoDir);
+          photoPaths = photoFile.getAbsolutePath();
+          photoUri = FileProvider.getUriForFile(manuel.this, manuel.this.getApplicationContext().getPackageName() + ".provider", photoFile);
+          intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+          startActivityForResult(intent, 1);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+
+    } else {
+
+      // we don't have it, request camera permission from system
+      ActivityCompat.requestPermissions((Activity) affichePhoto.getContext(),
+        new String[]{Manifest.permission.CAMERA}, 100);
+    }
+  }
 
     /**
      * retour de l'appel de l'appareil photo
@@ -245,6 +304,7 @@ public class manuel extends AppCompatActivity{
           Bitmap image = BitmapFactory.decodeFile(photoPaths);
           affichePhoto.setImageBitmap(image);
         }
+
     }
 
     private boolean VerifCodeArticle(){
