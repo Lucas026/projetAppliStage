@@ -23,15 +23,6 @@ import java.util.List;
 
 public class afficheBDD extends AppCompatActivity {
 
-  /*
-  ArrayList<String> listItem;
-  ArrayAdapter adapter;
-
-  SQLiteHelper db;
-
-  ListView bddList;
-   */
-
   SQLiteHelper dbHelper;
   SimpleCursorAdapter adapter;
 
@@ -40,45 +31,9 @@ public class afficheBDD extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.affichebdd);
 
-    /*
-    db = new SQLiteHelper(getApplicationContext());
-
-    listItem = new ArrayList<>();
-
-    bddList = findViewById(R.id.listView1);
-
-    affiche();
-
-    bddList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String text = bddList.getItemAtPosition(position).toString();
-        Toast.makeText(afficheBDD.this, ""+text, Toast.LENGTH_SHORT).show();
-      }
-    });
-    */
-
     dbHelper = new SQLiteHelper(this);
     displayListView();
   }
-
-  /*
-  private void affiche(){
-    Cursor cursor = db.affichePaletteBDD();
-
-    if(cursor.getCount() == 0){
-      Toast.makeText(this, "Il n'y a rien dans la base de données", Toast.LENGTH_SHORT).show();
-    }
-    else{
-      while(cursor.moveToNext()){
-        listItem.add(cursor.getString(0) + cursor.getString(1) + cursor.getString(2) + cursor.getString(3) + cursor.getString(4) + cursor.getString(5));
-      }
-
-      adapter = new ArrayAdapter<>(this, R.layout.color, listItem);
-      bddList.setAdapter(adapter);
-    }
-  }
-   */
 
   private void displayListView(){
     Cursor cursor = dbHelper.affichePaletteBDD();
@@ -86,6 +41,8 @@ public class afficheBDD extends AppCompatActivity {
     String[] columns = new String[]{
       SQLiteHelper.CODE_ARTICLE,
       SQLiteHelper.DATE,
+      SQLiteHelper.NUM_PALETTE,
+      SQLiteHelper.NUM_LOT,
       SQLiteHelper.DEFAUT,
       SQLiteHelper.CHANTIER,
       SQLiteHelper.ORIGINE,
@@ -95,6 +52,8 @@ public class afficheBDD extends AppCompatActivity {
     int[] to = new int[] {
       R.id.code_article,
       R.id.date,
+      R.id.palette,
+      R.id.lot,
       R.id.defaut,
       R.id.chantier,
       R.id.origine,

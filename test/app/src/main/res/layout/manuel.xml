@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:autofillHints=""
                 tools:ignore="LabelFor"/>
 
@@ -87,7 +87,7 @@
                           android:ems="10"
                           android:inputType="textPersonName"
                           tools:ignore="LabelFor" />
-
+            -->
                       <Space
                           android:layout_width="wrap_content"
                           android:layout_height="10dp"
@@ -137,8 +137,6 @@
                           android:inputType="number"
                           android:autofillHints=""
                           tools:ignore="LabelFor"/>
-
-                      -->
 
             <Space
                 android:layout_width="wrap_content"
@@ -267,7 +265,7 @@
                 android:id="@+id/button_envoieManuel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/btn_envoyerManuel" />
+                android:text="@string/generer_excel" />
 
         </LinearLayout>
     </ScrollView>

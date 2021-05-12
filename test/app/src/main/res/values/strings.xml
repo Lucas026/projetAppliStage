@@ -51,5 +51,6 @@
   <string name="afficheResponsabilite">TextView</string>
   <string name="afficheresponsabilite">TextView</string>
   <string name="afficheePhoto">TODO</string>
+    <string name="generer_excel">GENERER EXCEL</string>
 
 </resources>

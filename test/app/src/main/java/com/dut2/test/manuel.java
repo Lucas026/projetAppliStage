@@ -23,8 +23,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,15 +41,16 @@ import java.util.List;
 
 public class manuel extends AppCompatActivity{
 
-  private static final int CUTE_PHOTO = 2;
   TextView date, textViewImage;
-    EditText codeArticle, article, numPalette, numLot;
+    EditText codeArticle, numPalette, numLot;
     Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine;
     Button btnPhoto, btnEnvoie;
     ImageView affichePhoto;
     String photoPaths;
 
-    SQLiteHelper db;
+    private File filePath = new File(Environment.getExternalStorageDirectory() + "/Demo.xls");
+
+    //SQLiteHelper db;
 
 
 
@@ -53,9 +61,8 @@ public class manuel extends AppCompatActivity{
 
         date = findViewById(R.id.textView_Date);
         codeArticle = findViewById(R.id.editText_codeArticle);
-        //article = findViewById(R.id.editText_Article);
-        //numPalette = findViewById(R.id.editText_numPalette);
-        //numLot= findViewById(R.id.editText_numLot);
+        numPalette = findViewById(R.id.editText_numPalette);
+        numLot= findViewById(R.id.editText_numLot);
         spinnerDefaut = findViewById(R.id.spinner_defaut);
         spinnerChantier = findViewById(R.id.spinner_chantier);
         spinnerResponsabilite = findViewById(R.id.spinner_reponsabilite);
@@ -179,6 +186,9 @@ public class manuel extends AppCompatActivity{
         });
 
         //Pour les photos
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+
         initActivity();
     }
 
@@ -193,22 +203,18 @@ public class manuel extends AppCompatActivity{
       btnEnvoie.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          if(VerifCodeArticle() && VerifPhoto()){
+          if(VerifCodeArticle() && VerifNumPalette() && VerifDeLot()/* && VerifPhoto()*/){
 
-
+            /*
             Bitmap image = BitmapFactory.decodeFile(photoPaths);
             // convert bitmap to byte
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] imageInByte = stream.toByteArray();
-
-
-            db = new SQLiteHelper(getApplicationContext());
-            if(db.addBDD(codeArticle.getText().toString(), date.getText().toString(), spinnerDefaut.getSelectedItem().toString(), spinnerChantier.getSelectedItem().toString(),
-              spinnerOrigine.getSelectedItem().toString(), spinnerResponsabilite.getSelectedItem().toString(), imageInByte)){
-              Intent intent = new Intent(manuel.this, validation.class);
-              startActivity(intent);
-            }
+            */
+            buttonCreateExcel();
+            Intent intent = new Intent(manuel.this, validation.class);
+            startActivity(intent);
           }
         }
       });
@@ -219,29 +225,10 @@ public class manuel extends AppCompatActivity{
         btnPhoto.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //prendreUnePhoto();
               openCamera();
             }
         });
     }
-/*
-    private void prendreUnePhoto(){
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(intent.resolveActivity(getPackageManager()) != null){
-            String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            try {
-                File photoFile = File.createTempFile("photo" + time,".png", photoDir);
-                photoPaths = photoFile.getAbsolutePath();
-                Uri photoUri = FileProvider.getUriForFile(manuel.this, manuel.this.getApplicationContext().getPackageName() + ".provider", photoFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                startActivityForResult(intent, 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-*/
 
   private Uri photoUri;
 
@@ -329,21 +316,14 @@ public class manuel extends AppCompatActivity{
     }
   }
 
-    /*
-    private boolean VerifArticle(){
-      if(article.getText().toString().isEmpty()){
-        article.setError("Vous n'avez rien entrer");
-        article.requestFocus();
-        return false;
-      }
-      else{
-        return true;
-      }
-    }
-
   private boolean VerifNumPalette(){
     if(numPalette.getText().toString().isEmpty()){
       numPalette.setError("Vous n'avez rien entrer");
+      numPalette.requestFocus();
+      return false;
+    }
+    else if(numPalette.getText().toString().length() > 4){
+      numPalette.setError("Cette palette n'existe pas");
       numPalette.requestFocus();
       return false;
     }
@@ -362,5 +342,31 @@ public class manuel extends AppCompatActivity{
       return true;
     }
   }
-  */
+
+  public void buttonCreateExcel() {
+    HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
+    HSSFSheet hssfSheet = hssfWorkbook.createSheet("Custom Sheet");
+
+    HSSFRow hssfRow = hssfSheet.createRow(0);
+    HSSFCell hssfCell = hssfRow.createCell(0);
+
+    hssfCell.setCellValue(date.getText().toString());
+
+    try {
+      if (!filePath.exists()){
+        filePath.createNewFile();
+      }
+
+      FileOutputStream fileOutputStream= new FileOutputStream(filePath);
+      hssfWorkbook.write(fileOutputStream);
+
+      if (fileOutputStream!=null){
+        fileOutputStream.flush();
+        fileOutputStream.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
 }

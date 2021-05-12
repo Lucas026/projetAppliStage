@@ -25,13 +25,30 @@
     android:text="Date : "
     android:textAppearance="?android:attr/textAppearanceMedium" />
 
+  <TextView
+    android:id="@+id/textView_palette"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/textView_date"
+    android:layout_below="@+id/textView_date"
+    android:text="Numéro de Palette : "
+    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+  <TextView
+    android:id="@+id/textView_lot"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/textView_palette"
+    android:layout_below="@+id/textView_palette"
+    android:text="Numéro de lot : "
+    android:textAppearance="?android:attr/textAppearanceMedium" />
 
   <TextView
     android:id="@+id/textView_defaut"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignLeft="@+id/textView_date"
-    android:layout_below="@+id/textView_date"
+    android:layout_alignLeft="@+id/textView_lot"
+    android:layout_below="@+id/textView_lot"
     android:text="Défaut : "
     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -66,6 +83,7 @@
 
 
 
+
   <TextView
     android:id="@+id/code_article"
     android:layout_width="wrap_content"
@@ -83,6 +101,24 @@
     android:layout_alignBaseline="@+id/textView_date"
     android:layout_alignBottom="@+id/textView_date"
     android:layout_toRightOf="@+id/textView_date"
+    android:text="TextView" />
+
+  <TextView
+    android:id="@+id/palette"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/textView_palette"
+    android:layout_alignBottom="@+id/textView_palette"
+    android:layout_toRightOf="@+id/textView_palette"
+    android:text="TextView" />
+
+  <TextView
+    android:id="@+id/lot"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/textView_lot"
+    android:layout_alignBottom="@+id/textView_lot"
+    android:layout_toRightOf="@+id/textView_lot"
     android:text="TextView" />
 
   <TextView
@@ -120,5 +156,6 @@
     android:layout_alignBottom="@+id/textView_responsabilite"
     android:layout_toRightOf="@+id/textView_responsabilite"
     android:text="TextView" />
+
 
 </RelativeLayout>
