@@ -40,8 +40,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         DEFAUT + " TEXT," +
         CHANTIER + " TEXT," +
         ORIGINE + " TEXT," +
-        RESPONSABILITE + " TEXT)";
-        /*PHOTO + " BLOB)";*/
+        RESPONSABILITE + " TEXT," +
+        PHOTO + " BLOB)";
     db.execSQL(sql);
   }
 
@@ -53,7 +53,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     onCreate(db);
   }
 
-  boolean addBDD(String codeArticle, String date, String defaut, String chantier, String origine, String responsabilite/*, byte[] photo*/){
+  boolean addBDD(String codeArticle, String date, String defaut, String chantier, String origine, String responsabilite, byte[] photo){
 
     SQLiteDatabase db = this.getWritableDatabase();
 
@@ -64,7 +64,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     data.put(CHANTIER, chantier);
     data.put(ORIGINE, origine);
     data.put(RESPONSABILITE, responsabilite);
-    /*data.put(PHOTO, photo);*/
+    data.put(PHOTO, photo);
 
     long result = db.insert(TABLE_NAME, null, data);
     if(result != -1){
