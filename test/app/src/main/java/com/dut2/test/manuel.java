@@ -1,16 +1,12 @@
 package com.dut2.test;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,16 +15,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,12 +30,14 @@ public class manuel extends AppCompatActivity{
 
     TextView date, textViewImage;
     EditText codeArticle, article, numPalette, numLot;
-    Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine, spinnerCommande;
+    Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine;
     Button btnPhoto, btnEnvoie;
     ImageView affichePhoto;
     String photoPaths;
 
     SQLiteHelper db;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,10 +189,9 @@ public class manuel extends AppCompatActivity{
           if(VerifCodeArticle() && VerifPhoto()){
 
             Bitmap image = BitmapFactory.decodeFile(photoPaths);
-
             // convert bitmap to byte
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] imageInByte = stream.toByteArray();
 
             db = new SQLiteHelper(getApplicationContext());
@@ -228,7 +220,7 @@ public class manuel extends AppCompatActivity{
             String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             try {
-                File photoFile = File.createTempFile("photo" + time,".jpg", photoDir);
+                File photoFile = File.createTempFile("photo" + time,".png", photoDir);
                 photoPaths = photoFile.getAbsolutePath();
                 Uri photoUri = FileProvider.getUriForFile(manuel.this, manuel.this.getApplicationContext().getPackageName() + ".provider", photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
@@ -238,6 +230,7 @@ public class manuel extends AppCompatActivity{
             }
         }
     }
+
 
     /**
      * retour de l'appel de l'appareil photo
