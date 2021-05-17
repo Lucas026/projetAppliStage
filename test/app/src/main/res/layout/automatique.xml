@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bt_scan"
-        android:text="@string/scan" />
+        android:text="@string/_1er_code" />
 
       <Space
         android:layout_width="wrap_content"
@@ -67,7 +67,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/scan_quelque_chose"
+        android:layout_margin="20dp"
+        android:textColor="@color/black"/>
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt_scanContent"
+        android:text="@string/_2_me_code" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <TextView
+        android:id="@+id/textView_afficheCodeContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:textColor="@color/black"/>
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt_scanSSCC"
+        android:text="@string/_3_me_code" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <TextView
+        android:id="@+id/textView_afficheCodeSSCC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_margin="20dp"
         android:textColor="@color/black"/>
 
@@ -195,10 +242,34 @@
         android:layout_weight="0" />
 
       <Button
+        android:id="@+id/btn_genere_excel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Générer excel" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Button
+        android:id="@+id/btn_envoie_mail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Envoie mail" />
+
+      <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="0" />
+
+      <Button
         android:id="@+id/button_envoieAuto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_envoyerManuel" />
+        android:visibility="gone"
+        android:text="Fini" />
 
     </LinearLayout>
   </ScrollView>

@@ -6,24 +6,23 @@
   android:layout_height="match_parent"
   tools:context=".accueil">
 
-  <!--
 
   <Button
-    android:id="@+id/btn_bdd"
+    android:id="@+id/btn_auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/btn_base_de_donn_es"
+    android:text="@string/automatique"
     app:layout_constraintBottom_toTopOf="@+id/guideline2"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
-    -->
+
 
   <Button
     android:id="@+id/btn_manuel"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/btn_enregistrer_les_palettes_nc"
+    android:text="@string/manuel"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"

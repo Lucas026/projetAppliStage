@@ -17,7 +17,7 @@ public class accueil extends AppCompatActivity {
         setContentView(R.layout.accueil);
 
         man = findViewById(R.id.btn_manuel);
-        auto = findViewById(R.id.btn_bdd);
+        auto = findViewById(R.id.btn_auto);
 
         //Redirige vers la classe "manuel"
         man.setOnClickListener(new View.OnClickListener() {
@@ -28,13 +28,15 @@ public class accueil extends AppCompatActivity {
             }
         });
 
+
         //Redirige vers la classe "automatique"
         auto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(accueil.this, afficheBDD.class);
+                Intent intent = new Intent(accueil.this, automatique.class);
                 startActivity(intent);
             }
         });
+
     }
 }

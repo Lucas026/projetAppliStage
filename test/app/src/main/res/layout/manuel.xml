@@ -262,10 +262,34 @@
                 android:layout_weight="0" />
 
           <Button
-                android:id="@+id/button_envoieManuel"
+                android:id="@+id/button_genererExcel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/generer_excel" />
+
+          <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_weight="0" />
+
+          <Button
+            android:id="@+id/button_envoieMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/envoie_mail"
+            android:visibility="gone"/>
+
+          <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_weight="0" />
+
+          <Button
+            android:id="@+id/button_fini"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fini"
+            android:visibility="gone"/>
 
         </LinearLayout>
     </ScrollView>

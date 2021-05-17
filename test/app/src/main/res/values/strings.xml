@@ -51,6 +51,12 @@
   <string name="afficheResponsabilite">TextView</string>
   <string name="afficheresponsabilite">TextView</string>
   <string name="afficheePhoto">TODO</string>
-    <string name="generer_excel">GENERER EXCEL</string>
+  <string name="generer_excel">GENERER EXCEL</string>
+  <string name="envoie_mail">ENVOIE MAIL</string>
+  <string name="fini">FINI</string>
+  <string name="_3_me_code">3ème Code</string>
+  <string name="_2_me_code">2ème Code</string>
+  <string name="_1er_code">1er Code</string>
+
 
 </resources>

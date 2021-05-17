@@ -44,20 +44,18 @@ public class manuel extends AppCompatActivity{
   TextView date, textViewImage;
     EditText codeArticle, numPalette, numLot;
     Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine;
-    Button btnPhoto, btnEnvoie;
+    Button btnPhoto, btnExcel, btnMail, btnFini;
     ImageView affichePhoto;
     String photoPaths;
 
-    private File filePath = new File(Environment.getExternalStorageDirectory() + "/Demo.xls");
-
     //SQLiteHelper db;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manuel);
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
         date = findViewById(R.id.textView_Date);
         codeArticle = findViewById(R.id.editText_codeArticle);
@@ -67,7 +65,9 @@ public class manuel extends AppCompatActivity{
         spinnerChantier = findViewById(R.id.spinner_chantier);
         spinnerResponsabilite = findViewById(R.id.spinner_reponsabilite);
         spinnerOrigine = findViewById(R.id.spinner_origine);
-        btnEnvoie = findViewById(R.id.button_envoieManuel);
+        btnExcel = findViewById(R.id.button_genererExcel);
+        btnMail = findViewById(R.id.button_envoieMail);
+        btnFini = findViewById(R.id.button_fini);
         textViewImage = findViewById(R.id.textView_Photo);
 
         Calendar calendar = Calendar.getInstance();
@@ -185,10 +185,6 @@ public class manuel extends AppCompatActivity{
             }
         });
 
-        //Pour les photos
-
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
-
         initActivity();
     }
 
@@ -196,30 +192,70 @@ public class manuel extends AppCompatActivity{
         btnPhoto = (Button) findViewById(R.id.button_photo);
         affichePhoto = (ImageView) findViewById(R.id.imageView_affichePhoto);
         createOnClickBtnPhoto();
-        createOnClickEnvoie();
+        createOnClickExcel();
+        createOnClickMail();
+        createOnClickFini();
     }
 
-    private void createOnClickEnvoie(){
-      btnEnvoie.setOnClickListener(new View.OnClickListener() {
+    private void createOnClickExcel(){
+      btnExcel.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          if(VerifCodeArticle() && VerifNumPalette() && VerifDeLot()/* && VerifPhoto()*/){
-
+          if(VerifCodeArticle() && VerifNumPalette() && VerifDeLot() && VerifPhoto()){
             /*
-            Bitmap image = BitmapFactory.decodeFile(photoPaths);
             // convert bitmap to byte
+            Bitmap image = BitmapFactory.decodeFile(photoPaths);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             image.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] imageInByte = stream.toByteArray();
             */
+
             buttonCreateExcel();
+            btnMail.setVisibility(View.VISIBLE);
+            btnExcel.setVisibility(View.GONE);
+          }
+        }
+      });
+    }
+
+    private void createOnClickMail(){
+      btnMail.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          if(VerifCodeArticle() && VerifNumPalette() && VerifDeLot() && VerifPhoto()){
+
+            String filename = "scanPalette.xls";
+            File file = new File (getExternalFilesDir(null), filename);
+            Uri path = FileProvider.getUriForFile(manuel.this, manuel.this.getApplicationContext().getPackageName()+ ".provider", file);
+            if(!file.exists() || !file.canRead()){
+              return;
+            }
+            Intent emailIntent= new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("text/plain");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"scan.palette@outlook.fr"});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Palette xls");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Palette xls");
+            //emailIntent.putExtra(Intent.EXTRA_TEXT, "Date");
+            emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+            startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
+            btnFini.setVisibility(View.VISIBLE);
+            //btnMail.setVisibility(View.GONE);
+          }
+        }
+      });
+    }
+
+    private void createOnClickFini(){
+      btnFini.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          if(VerifCodeArticle() && VerifNumPalette() && VerifDeLot() && VerifPhoto()){
             Intent intent = new Intent(manuel.this, validation.class);
             startActivity(intent);
           }
         }
       });
     }
-
 
     private void createOnClickBtnPhoto(){
         btnPhoto.setOnClickListener(new Button.OnClickListener(){
@@ -244,8 +280,7 @@ public class manuel extends AppCompatActivity{
       e.printStackTrace();
     }
     if (Build.VERSION.SDK_INT >= 24) {
-      photoUri = FileProvider.getUriForFile(affichePhoto.getContext(),
-        manuel.this.getApplicationContext().getPackageName() + ".provider", outputImg);
+      photoUri = FileProvider.getUriForFile(affichePhoto.getContext(), manuel.this.getApplicationContext().getPackageName() + ".provider", outputImg);
     } else {
       photoUri = Uri.fromFile(outputImg);
     }
@@ -294,9 +329,15 @@ public class manuel extends AppCompatActivity{
 
     }
 
+    //Commence par un 9 obligé
     private boolean VerifCodeArticle(){
       if(codeArticle.getText().toString().isEmpty()){
         codeArticle.setError("Vous n'avez rien entrer");
+        codeArticle.requestFocus();
+        return false;
+      }
+      else if(codeArticle.length() < 7){
+        codeArticle.setError("Le code article est mauvais");
         codeArticle.requestFocus();
         return false;
       }
@@ -316,13 +357,15 @@ public class manuel extends AppCompatActivity{
     }
   }
 
+  //150 max (a rajouter)
   private boolean VerifNumPalette(){
+
     if(numPalette.getText().toString().isEmpty()){
       numPalette.setError("Vous n'avez rien entrer");
       numPalette.requestFocus();
       return false;
     }
-    else if(numPalette.getText().toString().length() > 4){
+    else if(numPalette.getText().length() > 150){
       numPalette.setError("Cette palette n'existe pas");
       numPalette.requestFocus();
       return false;
@@ -332,6 +375,7 @@ public class manuel extends AppCompatActivity{
     }
   }
 
+  //300 max (pas sur)
   private boolean VerifDeLot(){
     if(numLot.getText().toString().isEmpty()){
       numLot.setError("Vous n'avez rien entrer");
@@ -345,12 +389,33 @@ public class manuel extends AppCompatActivity{
 
   public void buttonCreateExcel() {
     HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
-    HSSFSheet hssfSheet = hssfWorkbook.createSheet("Custom Sheet");
+    HSSFSheet hssfSheet = hssfWorkbook.createSheet("Donnees palette");
 
     HSSFRow hssfRow = hssfSheet.createRow(0);
-    HSSFCell hssfCell = hssfRow.createCell(0);
+    HSSFCell hssfCellDate = hssfRow.createCell(0);
+    HSSFCell hssfCellCodeArticle = hssfRow.createCell(1);
+    HSSFCell hssfCellNumPalette = hssfRow.createCell(2);
+    HSSFCell hssfCellNumLot = hssfRow.createCell(3);
+    HSSFCell hssfCellDefaut = hssfRow.createCell(4);
+    HSSFCell hssfCellChantier = hssfRow.createCell(5);
+    HSSFCell hssfCellOrigine = hssfRow.createCell(6);
+    HSSFCell hssfCellResponsabilite = hssfRow.createCell(7);
+    HSSFCell hssfCellPhoto = hssfRow.createCell(8);
 
-    hssfCell.setCellValue(date.getText().toString());
+    hssfCellDate.setCellValue(date.getText().toString());
+    hssfCellCodeArticle.setCellValue(codeArticle.getText().toString());
+    hssfCellNumPalette.setCellValue(numPalette.getText().toString());
+    hssfCellNumLot.setCellValue(numLot.getText().toString());
+    hssfCellDefaut.setCellValue(spinnerDefaut.getSelectedItem().toString());
+    hssfCellChantier.setCellValue(spinnerChantier.getSelectedItem().toString());
+    hssfCellOrigine.setCellValue(spinnerOrigine.getSelectedItem().toString());
+    hssfCellResponsabilite.setCellValue(spinnerResponsabilite.getSelectedItem().toString());
+
+    Bitmap image = BitmapFactory.decodeFile(photoPaths);
+    //Valeur de la photo en bitmap
+    hssfCellPhoto.setCellValue(String.valueOf(image));
+
+    File filePath = new File(getExternalFilesDir(null), "scanPalette.xls");
 
     try {
       if (!filePath.exists()){

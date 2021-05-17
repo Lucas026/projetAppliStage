@@ -23,7 +23,13 @@ import androidx.core.content.FileProvider;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,8 +39,8 @@ import java.util.List;
 
 public class automatique extends AppCompatActivity {
 
-  Button Scan, btnPhoto, btnEnvoie;
-  TextView afficheScan, date, textViewImage;
+  Button Scan1, Scan2, Scan3, btnPhoto, btnEnvoie, btnMail, btnExcel;
+  TextView afficheScan1, afficheScan2, afficheScan3, date, textViewImage;
   Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine, spinnerCommande;
   ImageView affichePhoto;
   String photoPaths;
@@ -46,25 +52,58 @@ public class automatique extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.automatique);
 
-    Scan = findViewById(R.id.bt_scan);
-    afficheScan = findViewById(R.id.textView_afficheCode);
+    Scan1 = findViewById(R.id.bt_scan);
+    Scan2 = findViewById(R.id.bt_scanContent);
+    Scan3 = findViewById(R.id.bt_scanSSCC);
+    afficheScan1 = findViewById(R.id.textView_afficheCode);
+    afficheScan2 = findViewById(R.id.textView_afficheCodeContent);
+    afficheScan3 = findViewById(R.id.textView_afficheCodeSSCC);
     date = findViewById(R.id.textView_Date);
     spinnerDefaut = findViewById(R.id.spinner_defautAuto);
     spinnerChantier = findViewById(R.id.spinner_chantierAuto);
     spinnerResponsabilite = findViewById(R.id.spinner_reponsabiliteAuto);
     spinnerOrigine = findViewById(R.id.spinner_origineAuto);
     textViewImage = findViewById(R.id.textView_Photo);
-    btnEnvoie = findViewById(R.id.btn_bdd);
+    btnEnvoie = findViewById(R.id.button_envoieAuto);
+    btnMail = findViewById(R.id.btn_envoie_mail);
+    btnExcel = findViewById(R.id.btn_genere_excel);
 
-    Scan.setOnClickListener(new View.OnClickListener() {
-
-      public void setRequestCode(int requestCode) {
-        REQUEST_CODE = requestCode;
-      }
-
+    Scan1.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         int requestCode = 2;
+        IntentIntegrator intentIntegrator = new IntentIntegrator(automatique.this);
+        intentIntegrator.setPrompt("Pour le flash utiliser le bouton haut du son");
+        intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
+        intentIntegrator.setBeepEnabled(true);
+        intentIntegrator.setOrientationLocked(true);
+        intentIntegrator.setCaptureActivity(Capture.class);
+        intentIntegrator.setBarcodeImageEnabled(false);
+        intentIntegrator.setRequestCode(requestCode);
+        intentIntegrator.initiateScan();
+      }
+    });
+
+    Scan2.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        int requestCode = 3;
+        IntentIntegrator intentIntegrator = new IntentIntegrator(automatique.this);
+        intentIntegrator.setPrompt("Pour le flash utiliser le bouton haut du son");
+        intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
+        intentIntegrator.setBeepEnabled(true);
+        intentIntegrator.setOrientationLocked(true);
+        intentIntegrator.setCaptureActivity(Capture.class);
+        intentIntegrator.setBarcodeImageEnabled(false);
+        intentIntegrator.setRequestCode(requestCode);
+        intentIntegrator.initiateScan();
+      }
+    });
+
+    Scan3.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        int requestCode = 4;
         IntentIntegrator intentIntegrator = new IntentIntegrator(automatique.this);
         intentIntegrator.setPrompt("Pour le flash utiliser le bouton haut du son");
         intentIntegrator.setDesiredBarcodeFormats(intentIntegrator.ALL_CODE_TYPES);
@@ -194,24 +233,114 @@ public class automatique extends AppCompatActivity {
 
     //Pour les photos
    initActivity();
-
-/*
-    btnEnvoie.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if(VerifPhoto()){
-          Intent intent = new Intent(automatique.this, validation.class);
-          startActivity(intent);
-        }
-      }
-    });
-*/
   }
 
   private void initActivity(){
     btnPhoto = (Button) findViewById(R.id.button_photoAuto);
     affichePhoto = (ImageView) findViewById(R.id.imageView_affichePhotoAuto);
     createOnClickBtnPhoto();
+    createOnClickExcel();
+    createOnClickMail();
+    Envoie();
+  }
+
+  private void createOnClickMail(){
+    btnMail.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if(VerifPhoto() && VerifScan1() && VerifScan2() && VerifScan3()){
+
+          String filename = "scanPalette.xls";
+          File file = new File (getExternalFilesDir(null), filename);
+          Uri path = FileProvider.getUriForFile(automatique.this, automatique.this.getApplicationContext().getPackageName()+ ".provider", file);
+          if(!file.exists() || !file.canRead()){
+            return;
+          }
+          Intent emailIntent= new Intent(Intent.ACTION_SEND);
+          emailIntent.setType("text/plain");
+          emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"scan.palette@outlook.fr"});
+          emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Palette xls");
+          emailIntent.putExtra(Intent.EXTRA_TEXT, "Palette xls");
+          //emailIntent.putExtra(Intent.EXTRA_TEXT, "Date");
+          emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+          startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
+          btnEnvoie.setVisibility(View.VISIBLE);
+          //btnMail.setVisibility(View.GONE);
+        }
+      }
+    });
+  }
+
+  private void createOnClickExcel(){
+    btnExcel.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if(VerifPhoto() && VerifScan1() && VerifScan2() && VerifScan3()){
+          buttonCreateExcel();
+          btnMail.setVisibility(View.VISIBLE);
+          btnExcel.setVisibility(View.GONE);
+        }
+      }
+    });
+  }
+
+  public void buttonCreateExcel() {
+    HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
+    HSSFSheet hssfSheet = hssfWorkbook.createSheet("Donnees palette");
+
+    HSSFRow hssfRow = hssfSheet.createRow(0);
+    HSSFCell hssfCellDate = hssfRow.createCell(0);
+    HSSFCell hssfCellScan1 = hssfRow.createCell(1);
+    HSSFCell hssfCellScan2 = hssfRow.createCell(2);
+    HSSFCell hssfCellScan3 = hssfRow.createCell(3);
+    HSSFCell hssfCellDefaut = hssfRow.createCell(4);
+    HSSFCell hssfCellChantier = hssfRow.createCell(5);
+    HSSFCell hssfCellOrigine = hssfRow.createCell(6);
+    HSSFCell hssfCellResponsabilite = hssfRow.createCell(7);
+    HSSFCell hssfCellPhoto = hssfRow.createCell(8);
+
+    hssfCellDate.setCellValue(date.getText().toString());
+    hssfCellScan1.setCellValue(afficheScan1.getText().toString());
+    hssfCellScan2.setCellValue(afficheScan2.getText().toString());
+    hssfCellScan3.setCellValue(afficheScan3.getText().toString());
+    hssfCellDefaut.setCellValue(spinnerDefaut.getSelectedItem().toString());
+    hssfCellChantier.setCellValue(spinnerChantier.getSelectedItem().toString());
+    hssfCellOrigine.setCellValue(spinnerOrigine.getSelectedItem().toString());
+    hssfCellResponsabilite.setCellValue(spinnerResponsabilite.getSelectedItem().toString());
+
+    Bitmap image = BitmapFactory.decodeFile(photoPaths);
+    //Valeur de la photo en bitmap
+    hssfCellPhoto.setCellValue(String.valueOf(image));
+
+    File filePath = new File(getExternalFilesDir(null), "scanPalette.xls");
+
+    try {
+      if (!filePath.exists()){
+        filePath.createNewFile();
+      }
+
+      FileOutputStream fileOutputStream= new FileOutputStream(filePath);
+      hssfWorkbook.write(fileOutputStream);
+
+      if (fileOutputStream!=null){
+        fileOutputStream.flush();
+        fileOutputStream.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void Envoie(){
+    btnEnvoie.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if(VerifPhoto() && VerifScan1() && VerifScan2() && VerifScan3()){
+          Intent intent = new Intent(automatique.this, validation.class);
+          startActivity(intent);
+        }
+      }
+    });
   }
 
   private void createOnClickBtnPhoto(){
@@ -251,7 +380,21 @@ public class automatique extends AppCompatActivity {
     }else if (requestCode == 2){
       IntentResult intentResult = IntentIntegrator.parseActivityResult(resultCode ,data);
       if(intentResult.getContents() != null){
-        afficheScan.setText(intentResult.getContents());
+        afficheScan1.setText(intentResult.getContents());
+      }else{
+        Toast.makeText(getApplicationContext(), "Vous n'avez rien scannez", Toast.LENGTH_SHORT).show();
+      }
+    }else if(requestCode == 3){
+      IntentResult intentResult = IntentIntegrator.parseActivityResult(resultCode ,data);
+      if(intentResult.getContents() != null){
+        afficheScan2.setText(intentResult.getContents());
+      }else{
+        Toast.makeText(getApplicationContext(), "Vous n'avez rien scannez", Toast.LENGTH_SHORT).show();
+      }
+    }else if(requestCode == 4){
+      IntentResult intentResult = IntentIntegrator.parseActivityResult(resultCode ,data);
+      if(intentResult.getContents() != null){
+        afficheScan3.setText(intentResult.getContents());
       }else{
         Toast.makeText(getApplicationContext(), "Vous n'avez rien scannez", Toast.LENGTH_SHORT).show();
       }
@@ -262,6 +405,39 @@ public class automatique extends AppCompatActivity {
     if(null == affichePhoto.getDrawable()){
       textViewImage.setError("Vous n'avez pas pris de photo");
       textViewImage.requestFocus();
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  private boolean VerifScan1(){
+    if(afficheScan1.getText() == "" ){
+      afficheScan1.setError("Vous n'avez pas pris de photo");
+      afficheScan1.requestFocus();
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  private boolean VerifScan2(){
+    if(afficheScan2.getText() == "" ){
+      afficheScan2.setError("Vous n'avez pas pris de photo");
+      afficheScan2.requestFocus();
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  private boolean VerifScan3(){
+    if(afficheScan3.getText() == "" ){
+      afficheScan3.setError("Vous n'avez pas pris de photo");
+      afficheScan3.requestFocus();
       return false;
     }
     else{
