@@ -290,7 +290,7 @@ public class manuel extends AppCompatActivity{
 
   public void openCamera()  {
 
-    File outputImg = new File(affichePhoto.getContext().getExternalCacheDir(), System.currentTimeMillis() + ".jpg");
+    File outputImg = new File(affichePhoto.getContext().getExternalCacheDir(), System.currentTimeMillis() + ".png");
     if (outputImg.exists()) {
       outputImg.delete();
     }
@@ -312,7 +312,6 @@ public class manuel extends AppCompatActivity{
 
       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
       if(intent.resolveActivity(getPackageManager()) != null){
-        File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File photoFile = new File(getExternalFilesDir(null), "photo.png");
         photoPaths = photoFile.getAbsolutePath();
         photoUri = FileProvider.getUriForFile(manuel.this, manuel.this.getApplicationContext().getPackageName() + ".provider", photoFile);

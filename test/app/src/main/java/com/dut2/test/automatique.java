@@ -1,9 +1,11 @@
 package com.dut2.test;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -66,7 +69,7 @@ public class automatique extends AppCompatActivity {
     textViewImage = findViewById(R.id.textView_Photo);
     btnEnvoie = findViewById(R.id.button_envoieAuto);
     btnMail = findViewById(R.id.btn_envoie_mail);
-    btnExcel = findViewById(R.id.btn_genere_excel);
+    //btnExcel = findViewById(R.id.btn_genere_excel);
 
     Scan1.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -239,7 +242,7 @@ public class automatique extends AppCompatActivity {
     btnPhoto = (Button) findViewById(R.id.button_photoAuto);
     affichePhoto = (ImageView) findViewById(R.id.imageView_affichePhotoAuto);
     createOnClickBtnPhoto();
-    createOnClickExcel();
+    //createOnClickExcel();
     createOnClickMail();
     Envoie();
   }
@@ -263,9 +266,9 @@ public class automatique extends AppCompatActivity {
           //emailIntent.putExtra(Intent.EXTRA_TEXT, "Palette xls");
           emailIntent.putExtra(Intent.EXTRA_TEXT,
             "Date : " + date.getText().toString() + "\n" +
-              "Code article : " + afficheScan1.getText().toString() + "\n" +
-              "Numéro de palette : " + afficheScan2.getText().toString() + "\n" +
-              "Numéro de lot : " + afficheScan3.getText().toString() + "\n" +
+              "Premier scan : " + afficheScan1.getText().toString() + "\n" +
+              "Deuxième scan : " + afficheScan2.getText().toString() + "\n" +
+              "Troisième scan : " + afficheScan3.getText().toString() + "\n" +
               "Défaut : " + spinnerDefaut.getSelectedItem().toString() + "\n" +
               "Chantier : " + spinnerChantier.getSelectedItem().toString() + "\n" +
               "Origine : " + spinnerOrigine.getSelectedItem().toString() + "\n" +
@@ -278,7 +281,7 @@ public class automatique extends AppCompatActivity {
       }
     });
   }
-
+/*
   private void createOnClickExcel(){
     btnExcel.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -291,6 +294,7 @@ public class automatique extends AppCompatActivity {
       }
     });
   }
+  */
 
   public void buttonCreateExcel() {
     HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
@@ -360,20 +364,30 @@ public class automatique extends AppCompatActivity {
     });
   }
 
+  private Uri photoUri;
+
   private void prendreUnePhoto(){
+    File outputImg = new File(affichePhoto.getContext().getExternalCacheDir(), System.currentTimeMillis() + ".png");
+    if (outputImg.exists()) {
+      outputImg.delete();
+    }
+    try {
+      outputImg.createNewFile();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    if (Build.VERSION.SDK_INT >= 24) {
+      photoUri = FileProvider.getUriForFile(affichePhoto.getContext(), automatique.this.getApplicationContext().getPackageName() + ".provider", outputImg);
+    } else {
+      photoUri = Uri.fromFile(outputImg);
+    }
     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     if(intent.resolveActivity(getPackageManager()) != null){
-      String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-      File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-      try {
-        File photoFile = File.createTempFile("photo"+time,".jpg", photoDir);
-        photoPaths = photoFile.getAbsolutePath();
-        Uri photoUri = FileProvider.getUriForFile(automatique.this, automatique.this.getApplicationContext().getPackageName() + ".provider", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-        startActivityForResult(intent, 1);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      File photoFile = new File(getExternalFilesDir(null), "photo.png");
+      photoPaths = photoFile.getAbsolutePath();
+      photoUri = FileProvider.getUriForFile(automatique.this, automatique.this.getApplicationContext().getPackageName() + ".provider", photoFile);
+      intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+      startActivityForResult(intent, 1);
     }
   }
 
