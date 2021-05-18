@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,7 +43,7 @@ import java.util.List;
 
 public class manuel extends AppCompatActivity{
 
-  TextView date, textViewImage;
+    TextView date, textViewImage;
     EditText codeArticle, numPalette, numLot;
     Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine;
     Button btnPhoto, btnExcel, btnMail, btnFini;
@@ -65,13 +67,13 @@ public class manuel extends AppCompatActivity{
         spinnerChantier = findViewById(R.id.spinner_chantier);
         spinnerResponsabilite = findViewById(R.id.spinner_reponsabilite);
         spinnerOrigine = findViewById(R.id.spinner_origine);
-        btnExcel = findViewById(R.id.button_genererExcel);
+        //btnExcel = findViewById(R.id.button_genererExcel);
         btnMail = findViewById(R.id.button_envoieMail);
         btnFini = findViewById(R.id.button_fini);
         textViewImage = findViewById(R.id.textView_Photo);
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String formattedDate = df.format(calendar.getTime());
         date.setText(formattedDate);
 
@@ -192,7 +194,7 @@ public class manuel extends AppCompatActivity{
         btnPhoto = (Button) findViewById(R.id.button_photo);
         affichePhoto = (ImageView) findViewById(R.id.imageView_affichePhoto);
         createOnClickBtnPhoto();
-        createOnClickExcel();
+        //createOnClickExcel();
         createOnClickMail();
         createOnClickFini();
     }
@@ -224,22 +226,40 @@ public class manuel extends AppCompatActivity{
         public void onClick(View v) {
           if(VerifCodeArticle() && VerifNumPalette() && VerifDeLot() && VerifPhoto()){
 
+            /*
             String filename = "scanPalette.xls";
             File file = new File (getExternalFilesDir(null), filename);
             Uri path = FileProvider.getUriForFile(manuel.this, manuel.this.getApplicationContext().getPackageName()+ ".provider", file);
             if(!file.exists() || !file.canRead()){
               return;
             }
+            */
+
+            File photoFile = new File (getExternalFilesDir(null), "photo.png");
+            Uri photo = FileProvider.getUriForFile(manuel.this, manuel.this.getApplicationContext().getPackageName() + ".provider", photoFile);
+            if(!photoFile.exists() || !photoFile.canRead()){
+              return;
+            }
+
             Intent emailIntent= new Intent(Intent.ACTION_SEND);
             emailIntent.setType("text/plain");
             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"scan.palette@outlook.fr"});
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Palette xls");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Palette xls");
-            //emailIntent.putExtra(Intent.EXTRA_TEXT, "Date");
-            emailIntent.putExtra(Intent.EXTRA_STREAM, path);
-            startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
+            //emailIntent.putExtra(Intent.EXTRA_TEXT, "Palette xls");
+            emailIntent.putExtra(Intent.EXTRA_TEXT,
+              "Date : " + date.getText().toString() + "\n" +
+                "Code article : " + codeArticle.getText().toString() + "\n" +
+                "Numéro de palette : " + numPalette.getText().toString() + "\n" +
+                "Numéro de lot : " + numLot.getText().toString() + "\n" +
+                "Défaut : " + spinnerDefaut.getSelectedItem().toString() + "\n" +
+                "Chantier : " + spinnerChantier.getSelectedItem().toString() + "\n" +
+                "Origine : " + spinnerOrigine.getSelectedItem().toString() + "\n" +
+                "Responsabilité : " + spinnerResponsabilite.getSelectedItem().toString()
+            );
+            emailIntent.putExtra(Intent.EXTRA_STREAM, photo);
+            //emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+            startActivity(Intent.createChooser(emailIntent, "Envoie mail ..."));
             btnFini.setVisibility(View.VISIBLE);
-            //btnMail.setVisibility(View.GONE);
           }
         }
       });
@@ -292,17 +312,12 @@ public class manuel extends AppCompatActivity{
 
       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
       if(intent.resolveActivity(getPackageManager()) != null){
-        String time = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        try {
-          File photoFile = File.createTempFile("photo" + time,".png", photoDir);
-          photoPaths = photoFile.getAbsolutePath();
-          photoUri = FileProvider.getUriForFile(manuel.this, manuel.this.getApplicationContext().getPackageName() + ".provider", photoFile);
-          intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-          startActivityForResult(intent, 1);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+        File photoFile = new File(getExternalFilesDir(null), "photo.png");
+        photoPaths = photoFile.getAbsolutePath();
+        photoUri = FileProvider.getUriForFile(manuel.this, manuel.this.getApplicationContext().getPackageName() + ".provider", photoFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+        startActivityForResult(intent, 1);
       }
 
     } else {

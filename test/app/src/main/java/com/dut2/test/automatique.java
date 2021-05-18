@@ -250,22 +250,30 @@ public class automatique extends AppCompatActivity {
       public void onClick(View v) {
         if(VerifPhoto() && VerifScan1() && VerifScan2() && VerifScan3()){
 
-          String filename = "scanPalette.xls";
-          File file = new File (getExternalFilesDir(null), filename);
-          Uri path = FileProvider.getUriForFile(automatique.this, automatique.this.getApplicationContext().getPackageName()+ ".provider", file);
-          if(!file.exists() || !file.canRead()){
+          File photoFile = new File (getExternalFilesDir(null), "photo.png");
+          Uri photo = FileProvider.getUriForFile(automatique.this, automatique.this.getApplicationContext().getPackageName() + ".provider", photoFile);
+          if(!photoFile.exists() || !photoFile.canRead()){
             return;
           }
+
           Intent emailIntent= new Intent(Intent.ACTION_SEND);
           emailIntent.setType("text/plain");
           emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"scan.palette@outlook.fr"});
           emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Palette xls");
-          emailIntent.putExtra(Intent.EXTRA_TEXT, "Palette xls");
-          //emailIntent.putExtra(Intent.EXTRA_TEXT, "Date");
-          emailIntent.putExtra(Intent.EXTRA_STREAM, path);
-          startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
+          //emailIntent.putExtra(Intent.EXTRA_TEXT, "Palette xls");
+          emailIntent.putExtra(Intent.EXTRA_TEXT,
+            "Date : " + date.getText().toString() + "\n" +
+              "Code article : " + afficheScan1.getText().toString() + "\n" +
+              "Numéro de palette : " + afficheScan2.getText().toString() + "\n" +
+              "Numéro de lot : " + afficheScan3.getText().toString() + "\n" +
+              "Défaut : " + spinnerDefaut.getSelectedItem().toString() + "\n" +
+              "Chantier : " + spinnerChantier.getSelectedItem().toString() + "\n" +
+              "Origine : " + spinnerOrigine.getSelectedItem().toString() + "\n" +
+              "Responsabilité : " + spinnerResponsabilite.getSelectedItem().toString()
+          );
+          emailIntent.putExtra(Intent.EXTRA_STREAM, photo);
+          startActivity(Intent.createChooser(emailIntent, "Envoie mail ..."));
           btnEnvoie.setVisibility(View.VISIBLE);
-          //btnMail.setVisibility(View.GONE);
         }
       }
     });
