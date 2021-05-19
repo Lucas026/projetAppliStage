@@ -262,17 +262,17 @@ public class automatique extends AppCompatActivity {
           Intent emailIntent= new Intent(Intent.ACTION_SEND);
           emailIntent.setType("text/plain");
           emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"scan.palette@outlook.fr"});
-          emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Palette xls");
+          emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Palette Auto");
           //emailIntent.putExtra(Intent.EXTRA_TEXT, "Palette xls");
           emailIntent.putExtra(Intent.EXTRA_TEXT,
-            "Date : " + date.getText().toString() + "\n" +
-              "Premier scan : " + afficheScan1.getText().toString() + "\n" +
-              "Deuxième scan : " + afficheScan2.getText().toString() + "\n" +
-              "Troisième scan : " + afficheScan3.getText().toString() + "\n" +
-              "Défaut : " + spinnerDefaut.getSelectedItem().toString() + "\n" +
-              "Chantier : " + spinnerChantier.getSelectedItem().toString() + "\n" +
-              "Origine : " + spinnerOrigine.getSelectedItem().toString() + "\n" +
-              "Responsabilité : " + spinnerResponsabilite.getSelectedItem().toString()
+            "Date = " + date.getText().toString() + "\n" +
+              "Premier scan = " + afficheScan1.getText().toString() + "\n" +
+              "Deuxième scan = " + afficheScan2.getText().toString() + "\n" +
+              "Troisième scan = " + afficheScan3.getText().toString() + "\n" +
+              "Défaut = " + spinnerDefaut.getSelectedItem().toString() + "\n" +
+              "Chantier = " + spinnerChantier.getSelectedItem().toString() + "\n" +
+              "Origine = " + spinnerOrigine.getSelectedItem().toString() + "\n" +
+              "Responsabilité = " + spinnerResponsabilite.getSelectedItem().toString()
           );
           emailIntent.putExtra(Intent.EXTRA_STREAM, photo);
           startActivity(Intent.createChooser(emailIntent, "Envoie mail ..."));
