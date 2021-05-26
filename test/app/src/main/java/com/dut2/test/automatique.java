@@ -42,7 +42,7 @@ import java.util.List;
 
 public class automatique extends AppCompatActivity {
 
-  Button Scan1, Scan2, Scan3, btnPhoto, btnEnvoie, btnMail, btnExcel;
+  Button Scan1, Scan2, Scan3, btnPhoto, btnEnvoie, btnMail;
   TextView afficheScan1, afficheScan2, afficheScan3, date, textViewImage;
   Spinner spinnerDefaut, spinnerChantier, spinnerResponsabilite, spinnerOrigine, spinnerCommande;
   ImageView affichePhoto;
@@ -69,7 +69,6 @@ public class automatique extends AppCompatActivity {
     textViewImage = findViewById(R.id.textView_Photo);
     btnEnvoie = findViewById(R.id.button_envoieAuto);
     btnMail = findViewById(R.id.btn_envoie_mail);
-    //btnExcel = findViewById(R.id.btn_genere_excel);
 
     Scan1.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -440,6 +439,11 @@ public class automatique extends AppCompatActivity {
       afficheScan1.requestFocus();
       return false;
     }
+    else if(afficheScan1.getText() == afficheScan2.getText() || afficheScan1.getText() == afficheScan3.getText()){
+      afficheScan1.setError("Vous ne pouvez pas avoir 2 fois le même code barre");
+      afficheScan1.requestFocus();
+      return false;
+    }
     else{
       return true;
     }
@@ -451,6 +455,11 @@ public class automatique extends AppCompatActivity {
       afficheScan2.requestFocus();
       return false;
     }
+    else if(afficheScan2.getText() == afficheScan1.getText() || afficheScan2.getText() == afficheScan3.getText()){
+      afficheScan2.setError("Vous ne pouvez pas avoir 2 fois le même code barre");
+      afficheScan2.requestFocus();
+      return false;
+    }
     else{
       return true;
     }
@@ -459,6 +468,11 @@ public class automatique extends AppCompatActivity {
   private boolean VerifScan3(){
     if(afficheScan3.getText() == "" ){
       afficheScan3.setError("Vous n'avez pas pris de photo");
+      afficheScan3.requestFocus();
+      return false;
+    }
+    else if(afficheScan3.getText() == afficheScan1.getText() || afficheScan3.getText() == afficheScan2.getText()){
+      afficheScan3.setError("Vous ne pouvez pas avoir 2 fois le même code barre");
       afficheScan3.requestFocus();
       return false;
     }

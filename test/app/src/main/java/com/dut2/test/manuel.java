@@ -373,13 +373,12 @@ public class manuel extends AppCompatActivity{
 
   //150 max (a rajouter)
   private boolean VerifNumPalette(){
-
     if(numPalette.getText().toString().isEmpty()){
       numPalette.setError("Vous n'avez rien entrer");
       numPalette.requestFocus();
       return false;
     }
-    else if(numPalette.getText().length() > 150){
+    else if(numPalette.getText().length() > 3){
       numPalette.setError("Cette palette n'existe pas");
       numPalette.requestFocus();
       return false;
@@ -393,6 +392,11 @@ public class manuel extends AppCompatActivity{
   private boolean VerifDeLot(){
     if(numLot.getText().toString().isEmpty()){
       numLot.setError("Vous n'avez rien entrer");
+      numLot.requestFocus();
+      return false;
+    }
+    else if(numLot.getText().length() > 3){
+      numLot.setError("Cette palette n'existe pas");
       numLot.requestFocus();
       return false;
     }
